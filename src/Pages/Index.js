@@ -1,9 +1,11 @@
 import React from 'react'
+import Events from '../Layers/EventsLayer'
 
 const Home = () => {
-  return (
-    <h1>Home</h1>
-  )
+  return<>
+    <Events />
+  </>
+
 }
 
 export default Home

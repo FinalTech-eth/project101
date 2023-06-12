@@ -1,0 +1,10 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Engida please complete this color pallete section */
+:root {
+  --primary-color: blue;
+}

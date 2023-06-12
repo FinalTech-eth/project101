@@ -1,14 +1,16 @@
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import Navbar from '../Navbar'
-import Footer from '../Footer'
+import React from "react";
+import { Outlet } from "react-router-dom";
+import ResponsiveAppBar from "../AppBar/ResponsiveAppBar";
+import Footer from "../Footer";
 
 const ClientSharedLayout = () => {
-  return <>
-    <Navbar />
-    <Outlet />
-    <Footer />
-  </>
-}
+  return (
+    <>
+      <ResponsiveAppBar />
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
 
-export default ClientSharedLayout
+export default ClientSharedLayout;

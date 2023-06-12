@@ -1,9 +1,13 @@
-import React from 'react'
-
+import React from "react";
+import SwipeableTextMobileStepper from "./Hero/Hero";
 const Home = () => {
   return (
-    <h1>Home</h1>
-  )
-}
+    <>
+      <section className="hero">
+        <SwipeableTextMobileStepper />
+      </section>
+    </>
+  );
+};
 
-export default Home
+export default Home;

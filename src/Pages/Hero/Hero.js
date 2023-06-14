@@ -43,7 +43,7 @@ function SwipeableTextMobileStepper() {
   };
 
   return (
-    <Box sx={{ Width: "100%", flexGrow: 1 }}>
+    <Box sx={{ Width: "100%", flexGrow: 1 }} id="segni">
       <div>
         <Paper
           square

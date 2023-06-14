@@ -16,7 +16,7 @@ import "./navBar.css";
 const pages = ["Events", "Category", "Gallery", "Other-churches", "About Us"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-function ResponsiveAppBar() {
+export const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -34,9 +34,25 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const [color, setColor] = React.useState(false);
+  const changeColor = () => {
+    if (window.scrollY >= 80) {
+      setColor(true);
+    } else {
+      setColor(false);
+    }
+  };
+  window.addEventListener("scroll", changeColor);
   return (
-    <AppBar position="fixed" id="nav-transparent" className="navBar-Container">
+    <AppBar
+      position="fixed"
+      id="nav-transparent"
+      sx={{
+        background: `${color ? "#3c3f4a" : "transparent"} `,
+        boxShadow: "none",
+      }}
+      className="navBar-Container"
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -161,5 +177,4 @@ function ResponsiveAppBar() {
       </Container>
     </AppBar>
   );
-}
-export default ResponsiveAppBar;
+};

@@ -3,7 +3,8 @@ import Typography from "@mui/material/Typography";
 import logo from "../../Assets/Images/logo.png";
 import "./styles.css";
 import Divider from "@mui/material/Divider";
-import MenuItem from "@mui/material/MenuItem";
+import Grid from "@mui/material/Grid";
+
 const pages = ["Events", "Category", "Gallery", "Other-churches", "About Us"];
 
 const Footer = () => {
@@ -19,14 +20,19 @@ const Footer = () => {
           justifyContent: "center",
           flexDirection: "column",
           alignItems: "center",
+          width: "100%",
         }}
       >
         <Box className="img-container">
           <img src={logo} alt="Church Logo" />
         </Box>
-        <Box sx={{ display: "flex" }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ width: "60%", placeContent: "center" }}
+        >
           {pages.map((page) => (
-            <MenuItem key={page}>
+            <Grid item xs={12} md={6} lg={2} key={page}>
               <Typography
                 textAlign="center"
                 onClick={handleClick}
@@ -39,9 +45,9 @@ const Footer = () => {
               >
                 {page}
               </Typography>
-            </MenuItem>
+            </Grid>
           ))}
-        </Box>
+        </Grid>
       </Box>
       <Divider
         orientation="horizontal"
@@ -50,7 +56,7 @@ const Footer = () => {
           borderColor: "rgba(255, 255, 255, 0.1)",
         }}
       />
-      <Box className="notice-message-container">
+      <Box>
         <Typography
           variant="h4"
           sx={{

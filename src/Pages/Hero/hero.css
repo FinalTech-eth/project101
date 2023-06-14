@@ -23,10 +23,21 @@
 }
 .vLine-1 {
   position: absolute;
-  transform: rotate(90deg);
-  left: 0px;
+  top: -10px;
+
+  left: 20%;
   color: white;
-  width: 100%;
   height: 100vh;
   z-index: 1000;
 }
+.vLine-2 {
+  position: absolute;
+  top: -10px;
+  right: 20%;
+  color: white;
+  height: 100vh;
+  z-index: 1000;
+}
+/* @media screen (<=750px) {
+  
+} */

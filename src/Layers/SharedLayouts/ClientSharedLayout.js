@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import ResponsiveAppBar from "../AppBar/ResponsiveAppBar";
+import { ResponsiveAppBar } from "../AppBar/ResponsiveAppBar";
 import Footer from "../Footer";
 
 const ClientSharedLayout = () => {

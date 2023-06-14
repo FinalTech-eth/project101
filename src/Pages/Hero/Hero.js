@@ -65,6 +65,7 @@ function SwipeableTextMobileStepper() {
         <hr className="hLine-1" />
         <hr className="hLine-2" />
         <hr className="vLine-1" />
+        <hr className="vLine-2" />
       </div>
 
       <AutoPlaySwipeableViews

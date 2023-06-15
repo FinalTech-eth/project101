@@ -18,6 +18,7 @@ const CardContainer = styled(Card)(() => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
+  gap: "2rem",
   transition: 'transform 0.3s ease',
   '&:hover': {
     transform: 'scale(1.05)',
@@ -36,11 +37,14 @@ const CardOverlay = styled('div')(() => ({
   },
 }));
 
-const HeaderContainer = styled('div')(()=> ({
+const HeaderContainer = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  marginBottom: '3rem'
+  gap: '2rem',
+  marginBottom: '3rem',
+  fontFamily: 'var(--font-family_2)',
+  // color: 'var(--primary-clr)',
 }))
 
 const EventSection = () => {
@@ -55,15 +59,21 @@ const EventSection = () => {
   return (
     <Box>
       <HeaderContainer>
-        <Typography variant="h4"  sx={{ marginLeft: '24px' }}>
-          Events
-        </Typography>
+        <Grid container>
+          <Grid item md={6}>
+            <Typography variant="h4" sx={{ marginLeft: '24px' }}>
+              Events
+            </Typography>
+          </Grid>
 
-        <Tabs value={selectedTab} onChange={handleTabChange} aria-label="Event categories" centered>
-          <Tab value="All" label="All Events" />
-          <Tab value="Category A" label="Category A" />
-          <Tab value="Category B" label="Category B" />
-        </Tabs>
+          <Grid item md={6}>
+            <Tabs value={selectedTab} onChange={handleTabChange} aria-label="Event categories" centered>
+              <Tab value="All" label="All Events" />
+              <Tab value="Category A" label="Category A" />
+              <Tab value="Category B" label="Category B" />
+            </Tabs>
+          </Grid>
+        </Grid>
       </HeaderContainer>
 
       <Grid container spacing={2}>

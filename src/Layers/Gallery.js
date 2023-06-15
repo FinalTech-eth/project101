@@ -1,10 +1,13 @@
 import React from 'react'
-import Gallery from '../Components/Home/Gallary/Gallery'
+import GalleryComponent from '../Components/Home/Gallary/Gallery'
+import { SectionContainer } from './EventsLayer'
 
 const GalleryLayer = () => {
     return (
         <>
-            <Gallery />
+            <SectionContainer>
+                <GalleryComponent />
+            </SectionContainer>
         </>
     )
 }

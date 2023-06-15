@@ -2,6 +2,8 @@ import React from "react";
 import SwipeableTextMobileStepper from "./Hero/Hero";
 import Events from "../Layers/EventsLayer";
 import NoticeBoard from "../Layers/NoticeBoard/NoticeBoard";
+import GalleryLayer from "../Layers/Gallery";
+
 const Home = () => {
   return (
     <>
@@ -9,6 +11,7 @@ const Home = () => {
         <SwipeableTextMobileStepper />
       </section>
       <Events />
+      <GalleryLayer />
       <NoticeBoard />
     </>
   );

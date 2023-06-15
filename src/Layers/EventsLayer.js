@@ -1,8 +1,15 @@
 import React from 'react'
-import MediaCard from '../Components/Home/Card/Card'
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { styled } from '@mui/material/styles';
+
+import MediaCard from '../Components/Home/Card/Card'
+import EventSection from '../Components/Home/Events';
+
+const SectionContainer = styled('div')(()=>({
+    margin: '110px 7rem'
+}))
 
 const Events = () => {
     const settings = {
@@ -28,8 +35,8 @@ const Events = () => {
     };
 
     return <>
-    
-        <Slider {...settings}>
+
+        {/* <Slider {...settings}>
             <div className='card_gap'>
                 <MediaCard />
             </div>
@@ -48,8 +55,12 @@ const Events = () => {
             <div>
                 <MediaCard />
             </div>
-        </Slider>
+        </Slider> */}
+        <SectionContainer>
+            <EventSection />
+        </SectionContainer>
     </>
 }
 
+export {SectionContainer} 
 export default Events

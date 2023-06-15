@@ -1,47 +1,39 @@
-import LightGallery from 'lightgallery/react';
+import React from 'react';
+import { styled } from '@mui/material/styles';
+import ImageGallery from 'react-image-gallery';
+import 'react-image-gallery/styles/css/image-gallery.css';
+import { Gallery } from 'react-grid-gallery';
+import img1 from '../../../Assets/Images/download (2).jpg'
+import img2 from '../../../Assets/Images/download.jpg'
 
+const images = [
+{
+original: img1,
+thumbnail: img1,
+originalAlt: 'Image 1',
+thumbnailAlt: 'Thumbnail 1',
+},
+{
+original: img2,
+thumbnail: img2,
+originalAlt: 'Image 2',
+thumbnailAlt: 'Thumbnail 2',
+},
+// Add more images as needed
+];
 
-import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import lgZoom from 'lightgallery/plugins/zoom';
+const GalleryComponent = () => {
+return (
+<div>
+<ImageGallery
+     items={images}
+     showFullscreenButton={false}
+     showPlayButton={false}
+     autoPlay
+     slideInterval={5000}
+   />
+</div>
+);
+};
 
-import image from '../../../Assets/Images/logo.jpg'
-
-import './gallery.css'
-
-function Gallery() {
-    const onInit = () => {
-    };
-    console.log('lightGallery has been initialized');
-
-
-    return (
-        <div className="gallery_container">
-            <LightGallery
-                onInit={onInit}
-                speed={500}
-                plugins={[lgThumbnail, lgZoom]}
-                elementClassNames="custom-wrapper-class"
-                onBeforeSlide={onBeforeSlide}
-            >
-                <a href="img/img1.jpg">
-                    <img alt="img1" src={image} />
-                </a>
-                <a href="img/img2.jpg">
-                    <img alt="img1" src={image} />
-                </a>
-                <a href="img/img1.jpg">
-                    <img alt="img1" src={image} />
-                </a>
-                <a href="img/img2.jpg">
-                    <img alt="img1" src={image} />
-                </a>
-            </LightGallery>
-        </div>
-    );
-}
-
-
-
-export default Gallery
-
-
+export default GalleryComponent;

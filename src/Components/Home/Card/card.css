@@ -1,0 +1,21 @@
+.card-container{
+}
+.card-title{
+    color: var(--primary-clr)
+}
+.card-body{
+    color: var(--text-clr)
+}
+
+button.slick-prev:before, button.slick-next:before{
+    color: black;
+    font-size: 30px;
+}
+button.slick-next{
+    right: 10px;
+}
+button.slick-prev{
+    left: 0;
+    z-index: 100;
+}
+

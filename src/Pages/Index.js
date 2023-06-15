@@ -1,12 +1,20 @@
 import React from 'react'
 import Events from '../Layers/EventsLayer'
 import SwipeableTextMobileStepper from "./Hero/Hero";
+import GalleryLayer from '../Layers/Gallery';
+// import Gallery from '../Components/Home/Gallary/Gallery';
 
 const Home = () => {
   return<>
-    <Events />
     <section className="hero">
-        <SwipeableTextMobileStepper />
+        {/* <SwipeableTextMobileStepper /> */}
+      </section>
+      <section >
+            <Events />
+      </section>
+
+      <section >
+            <GalleryLayer />
       </section>
   </>
 

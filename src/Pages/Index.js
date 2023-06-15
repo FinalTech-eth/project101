@@ -1,23 +1,17 @@
-import React from 'react'
-import Events from '../Layers/EventsLayer'
+import React from "react";
 import SwipeableTextMobileStepper from "./Hero/Hero";
-import GalleryLayer from '../Layers/Gallery';
-// import Gallery from '../Components/Home/Gallary/Gallery';
-
+import Events from "../Layers/EventsLayer";
+import NoticeBoard from "../Layers/NoticeBoard/NoticeBoard";
 const Home = () => {
-  return<>
-    <section className="hero">
-        {/* <SwipeableTextMobileStepper /> */}
+  return (
+    <>
+      <section className="hero">
+        <SwipeableTextMobileStepper />
       </section>
-      <section >
-            <Events />
-      </section>
-
-      <section >
-            <GalleryLayer />
-      </section>
-  </>
-
-}
+      <Events />
+      <NoticeBoard />
+    </>
+  );
+};
 
 export default Home;

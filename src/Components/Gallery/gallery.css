@@ -1,0 +1,11 @@
+
+
+
+
+div.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 10000;
+}
+.gallery_container{
+    /* background-color: red; */
+    /* padding: 5rem; */
+}

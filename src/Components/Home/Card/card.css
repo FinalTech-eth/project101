@@ -1,10 +1,15 @@
 .card-container{
 }
+div.css-vlroo5-MuiPaper-root-MuiCard-root{
+    box-shadow: 0px 20px 30px rgba(39, 43, 55, 0.25);
+    /* background-color: red; */
+}
+
 .card-title{
-    color: var(--primary-clr)
+    /* color: var(--primary-clr) */
 }
 .card-body{
-    color: var(--text-clr)
+    /* color: var(--text-clr) */
 }
 
 button.slick-prev:before, button.slick-next:before{

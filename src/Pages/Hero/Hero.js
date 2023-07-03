@@ -53,14 +53,14 @@ function SwipeableTextMobileStepper() {
             flexDirection: "column",
             alignItems: "left",
             justifyContent: "left",
-            height: 50,
-            width: 500,
+           
+            width: "50vw",
             pl: 2,
           }}
           id="hero-text"
         >
-          <Typography variant="h5">{images[activeStep].label}</Typography>
-          <Typography variant="h1">{images[activeStep].title}</Typography>
+          <Typography sx={{fontSize: "3vw"}}>{images[activeStep].label}</Typography>
+          <Typography sx={{fontSize: "8vw"}}>{images[activeStep].title}</Typography>
         </Paper>
         <hr className="hLine-1" />
         <hr className="hLine-2" />

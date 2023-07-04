@@ -25,7 +25,7 @@ function App() {
         <Route path='/dashboard' element={<AdminSideBar />} >
           <Route index element={<Dashboard />} />
           <Route path='add-event' element={<AddEvent />} />
-          <Route path='all-events' element={<AllEvents />} />
+          <Route path='events' element={<AllEvents />} />
         </Route>
 
         <Route path="*" element={<Error />} />

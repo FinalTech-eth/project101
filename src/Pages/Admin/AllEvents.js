@@ -4,7 +4,7 @@ import EventList from '../../Components/Admin/Event/EventList'
 const AllEvents = () => {
   return (
     <>
-      <div className='dashboard_body_container center_center '>
+      <div className='center_center'>
         <EventList />
       </div>
     </>

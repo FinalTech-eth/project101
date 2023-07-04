@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Avatar,TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TablePagination } from '@mui/material';
+import { Avatar, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TablePagination, Modal, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import './style.css'
-import img from '../../../Assets/Images/logo.jpg'
+import img from '../../../Assets/Images/logo.jpg';
+import AddEventForm from '../AddEvent';
 
 const events = [
   {
@@ -49,11 +50,11 @@ const events = [
   },
 ];
 
-
 const EventList = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleSearchQueryChange = (e) => {
     setSearchQuery(e.target.value);
@@ -78,15 +79,21 @@ const EventList = () => {
   );
 
   const handleAddEvent = () => {
-    // Logic for adding an event
-    console.log('Add Event');
+    setOpenModal(true);
   };
-  const handleViewEvent = () => {
-    
-  }
+
+  const handleViewEvent = (event) => {
+    // Logic for viewing an event
+    console.log('View Event:', event);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
   return (
     <div style={{ width: '100%' }}>
-      <div style={{ display: 'flex', alignItems: 'center', width: '100%', paddingBottom: '2rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2rem 1rem', width: '100%' }}>
         <TextField
           label="Search"
           variant="outlined"
@@ -94,14 +101,14 @@ const EventList = () => {
           onChange={handleSearchQueryChange}
           style={{ marginRight: '1rem', width: '50%' }}
         />
-        <Button variant="contained" onClick={handleAddEvent} sx={{padding: '1rem'}}>
-          Add Event
+        <Button variant="outlined" onClick={handleAddEvent} sx={{ padding: '1rem' }}>
+          Create Event
         </Button>
       </div>
       <TableContainer component={Paper} style={{ flexGrow: 1 }}>
         <Table>
           <TableHead>
-            <TableRow className=''>
+            <TableRow className="">
               <TableRow></TableRow>
               <TableCell>Title</TableCell>
               <TableCell>Description</TableCell>
@@ -113,10 +120,7 @@ const EventList = () => {
             {paginatedEvents.map((event) => (
               <TableRow key={event.id} className="row">
                 <TableCell>
-                  <Avatar
-                  src={event.image}
-                  ></Avatar>
-                  {/* <img src={event.image} alt={event.title} style={{ width: '50px', height: '50px' }} /> */}
+                  <Avatar src={event.image} />
                 </TableCell>
                 <TableCell>{event.title}</TableCell>
                 <TableCell>{event.description}</TableCell>
@@ -140,8 +144,16 @@ const EventList = () => {
         onRowsPerPageChange={handleRowsPerPageChange}
         rowsPerPageOptions={[5, 10, 25]}
       />
+
+      {/* Modal */}
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Box className='center_center' sx={{ width: '50%', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+          <AddEventForm />
+        </Box>
+      </Modal>
     </div>
   );
 };
 
 export default EventList;
+

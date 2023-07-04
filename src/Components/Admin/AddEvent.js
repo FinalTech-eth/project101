@@ -61,7 +61,7 @@ const AddEventForm = () => {
         <input type="file" accept="image/*" onChange={handleImageChange} />
       </Box>
       <Button variant="contained" type="submit">
-        Add Event
+        Create Event
       </Button>
     </form>
   );

@@ -10,6 +10,7 @@ import Dashboard from './Pages/Admin/Dashboard';
 import AddEvent from './Pages/Admin/AddEvent';
 import AdminSideBar from './Components/Admin/SideBar';
 import AllEvents from './Pages/Admin/AllEvents';
+import GalleryImages from './Pages/Admin/Gallery';
 import './App.css'
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path='add-event' element={<AddEvent />} />
           <Route path='events' element={<AllEvents />} />
+          <Route path='gallery' element={<GalleryImages />} />
         </Route>
 
         <Route path="*" element={<Error />} />

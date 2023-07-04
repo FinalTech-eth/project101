@@ -25,6 +25,7 @@
     "react-spring-lightbox": "^1.7.1",
     "react-swipeable-views": "^0.14.0",
     "react-swipeable-views-utils": "^0.14.0",
+    "shortid": "^2.2.16",
     "slick-carousel": "^1.8.1",
     "styled-components": "^5.3.11",
     "web-vitals": "^2.1.4"

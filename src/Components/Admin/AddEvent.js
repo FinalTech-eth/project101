@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, Typography } from '@mui/material';
 
 const AddEventForm = () => {
   const {
@@ -8,6 +8,7 @@ const AddEventForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleFormSubmit = (data) => {
     // Perform event submission logic here
@@ -17,11 +18,12 @@ const AddEventForm = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    // setValue('image', file);
+    setSelectedImage(URL.createObjectURL(file));
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)}
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -30,8 +32,9 @@ const AddEventForm = () => {
         minHeight: '80vh',
         alignContent: 'center',
         justifyContent: 'center',
-
-      }}>
+        backgroundColor: 'white'
+      }}
+    >
       <TextField
         label="Title"
         variant="outlined"
@@ -42,9 +45,18 @@ const AddEventForm = () => {
       <TextField
         label="Description"
         variant="outlined"
+        multiline
+        rows={4}
         {...register('description', { required: true })}
         error={!!errors.description}
         helperText={errors.description && 'Description is required'}
+      />
+      <TextField
+        label="Location"
+        variant="outlined"
+        {...register('location', { required: true })}
+        error={!!errors.location}
+        helperText={errors.location && 'Location is required'}
       />
       <TextField
         label="Date"
@@ -58,7 +70,24 @@ const AddEventForm = () => {
         }}
       />
       <Box sx={{ mt: 2 }}>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <label htmlFor="image-upload">
+          <input
+            id="image-upload"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ display: 'none' }}
+          />
+          <Button variant="contained" component="span">
+            Upload Image
+          </Button>
+        </label>
+        {selectedImage && (
+          <Box mt={2}>
+            <Typography variant="subtitle1">Selected Image Preview:</Typography>
+            <img src={selectedImage} alt="Selected" style={{ width: '200px', height: '200px' }} />
+          </Box>
+        )}
       </Box>
       <Button variant="contained" type="submit">
         Create Event

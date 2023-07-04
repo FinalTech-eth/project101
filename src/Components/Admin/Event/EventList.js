@@ -146,8 +146,27 @@ const EventList = () => {
       />
 
       {/* Modal */}
+      {/* <Modal open={openModal} onClose={handleCloseModal}>
+        <Box className='center_center' sx={{ width: '50%',height: 'auto', overflow:'scroll', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+          <AddEventForm />
+        </Box>
+      </Modal> */}
       <Modal open={openModal} onClose={handleCloseModal}>
-        <Box className='center_center' sx={{ width: '50%', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '80%',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+
           <AddEventForm />
         </Box>
       </Modal>

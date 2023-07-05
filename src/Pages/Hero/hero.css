@@ -2,7 +2,7 @@
   position: absolute;
   text-align: center;
   top: 100px;
-  left: 360px;
+  left: 300px;
   background: transparent;
   color: white;
   z-index: 100;
@@ -24,6 +24,7 @@
 .vLine-1 {
   position: absolute;
   top: -10px;
+
   left: 20%;
   color: white;
   height: 100vh;
@@ -37,6 +38,9 @@
   height: 100vh;
   z-index: 1000;
 }
-/* @media screen (<=750px) {
-  
-} */
+@media only screen and (max-width: 600px) {
+  #hero-text {
+    top: 50vw;
+    left: 80px;
+  }
+}

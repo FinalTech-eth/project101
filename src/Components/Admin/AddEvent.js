@@ -85,7 +85,7 @@ const AddEventForm = () => {
         {selectedImage && (
           <Box mt={2}>
             <Typography variant="subtitle1">Selected Image Preview:</Typography>
-            <img src={selectedImage} alt="Selected" style={{ width: '200px', height: '200px' }} />
+            <img src={selectedImage} alt="Selected" style={{ height: '200px' }} />
           </Box>
         )}
       </Box>

@@ -1,20 +1,9 @@
-import React, { useState } from 'react';
-import { Box, Tab, Tabs, Grid, Typography, Card, CardMedia, CardContent } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Tab, Tabs, Grid, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import MediaCard from '../Events/Card';
-import img1 from '../../Assets/Images/download (2).jpg';
-import img2 from '../../Assets/Images/download.jpg';
-
-const eventsData = [
-  { id: 4, category: 'Category A', title: 'Event 2 lkd lasien c lser', date: 'November 12 2023', imageUrl: img2 },
-  { id: 5, category: 'Category A', title: 'Event 2', date: 'November 12 2023', imageUrl: img1 },
-  { id: 6, category: 'Category A', title: 'Event 2', date: 'November 12 2023', imageUrl: img2 },
-  { id: 7, category: 'Category B', title: 'Event 3', date: 'November 12 2023', imageUrl: img1 },
-  { id: 8, category: 'Category B', title: 'Event 3', date: 'November 12 2023', imageUrl: img2 },
-  { id: 9, category: 'Category B', title: 'Event 3', date: 'November 12 2023', imageUrl: img1 },
-];
-
+import axios from '../../API/axios';
 
 const HeaderContainer = styled('div')(() => ({
   display: 'flex',
@@ -24,16 +13,34 @@ const HeaderContainer = styled('div')(() => ({
   marginBottom: '3rem',
   fontFamily: 'var(--font-family_2)',
   // color: 'var(--primary-clr)',
-}))
+}));
 
 const EventSection = () => {
   const [selectedTab, setSelectedTab] = useState('All');
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get('/event');
+      setEvents(response.data.items);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const currentDate = new Date();
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
 
-  const filteredEvents = selectedTab === 'All' ? eventsData : eventsData.filter(event => event.category === selectedTab);
+  const filteredEvents = selectedTab === 'All'
+    ? events.filter(event => new Date(event.date) >= currentDate)
+    : events.filter(event => event.category === selectedTab && new Date(event.date) >= currentDate);
 
   return (
     <Box>
@@ -58,7 +65,7 @@ const EventSection = () => {
       <Grid container spacing={2}>
         {filteredEvents.map(event => (
           <Grid key={event.id} item xs={12} sm={6} md={4}>
-            <MediaCard url={event.imageUrl} title={event.title} date={event.date} />
+            <MediaCard id={event._id} url={event.image} title={event.title} date={event.date} />
           </Grid>
         ))}
       </Grid>
@@ -67,5 +74,3 @@ const EventSection = () => {
 };
 
 export default EventSection;
-
-

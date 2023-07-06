@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 
 const About = () => {
@@ -6,4 +7,17 @@ const About = () => {
   )
 }
 
+=======
+import React from 'react'
+import AboutSection from '../Components/About/AboutSection'
+
+const About = () => {
+  return (
+    <div>
+      <AboutSection/>
+    </div>
+  )
+}
+
+>>>>>>> origin/engida
 export default About

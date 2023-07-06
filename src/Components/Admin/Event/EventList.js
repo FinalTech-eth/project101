@@ -1,60 +1,75 @@
-import React, { useState } from 'react';
-import { Avatar, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, TablePagination, Modal, Box } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import './style.css'
-import img from '../../../Assets/Images/logo.jpg';
-import AddEventForm from '../AddEvent';
-
-const events = [
-  {
-    id: 1,
-    title: 'Conference',
-    description: 'A conference on technology and innovation',
-    date: '2023-08-15',
-    image: img
-  },
-  {
-    id: 2,
-    title: 'Workshop',
-    description: 'A hands-on workshop on web development',
-    date: '2023-09-10',
-    image: img
-  },
-  {
-    id: 3,
-    title: 'Seminar',
-    description: 'A seminar on leadership skills',
-    date: '2023-07-25',
-    image: img
-  },
-  {
-    id: 4,
-    title: 'Meetup',
-    description: 'A community meetup for networking',
-    date: '2023-08-05',
-    image: img
-  },
-  {
-    id: 5,
-    title: 'Hackathon',
-    description: 'A 24-hour hackathon for coding enthusiasts',
-    date: '2023-09-18',
-    image: img
-  },
-  {
-    id: 6,
-    title: 'Exhibition',
-    description: 'An exhibition showcasing art and culture',
-    date: '2023-07-30',
-    image: img
-  },
-];
+import React, { useState, useEffect } from "react";
+import {
+  Avatar,
+  TextField,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  TablePagination,
+  Modal,
+  Box,
+  CircularProgress,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import "./style.css";
+import img from "../../../Assets/Images/logo.jpg";
+import AddEventForm from "./AddEvent";
+import axios from "../../../API/axios";
+import Loading from "../../Loading";
+import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import { toast, ToastContainer } from "react-toastify";
+import EditEventForm from "./EditEvent";
+import { format } from "date-fns";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const EventList = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [openModal, setOpenModal] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get("/event");
+      setEvents(response.data.items);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleEditEvent = (event) => {
+    setSelectedEvent(event);
+    setOpenModal(true);
+  };
+
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      await axios.delete(`/event/delete/${eventId}`);
+      fetchEvents(); // Fetch events again after deletion to update the list
+      toast.success("Event deleted successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete event.");
+    }
+  };
 
   const handleSearchQueryChange = (e) => {
     setSearchQuery(e.target.value);
@@ -69,66 +84,97 @@ const EventList = () => {
     setPage(0);
   };
 
-  const filteredEvents = events.filter((event) =>
+  const filteredEvents = events?.filter((event) =>
     event.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const paginatedEvents = filteredEvents.slice(
+  const paginatedEvents = filteredEvents?.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
   const handleAddEvent = () => {
+    setSelectedEvent(null);
     setOpenModal(true);
-  };
-
-  const handleViewEvent = (event) => {
-    // Logic for viewing an event
-    console.log('View Event:', event);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
+  const handleFetchEvents = () => {
+    fetchEvents();
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
-    <div style={{ width: '100%' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', padding: '2rem 1rem', width: '100%' }}>
+    <div style={{ width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "2rem 1rem",
+          width: "100%",
+        }}
+      >
         <TextField
           label="Search"
           variant="outlined"
           value={searchQuery}
           onChange={handleSearchQueryChange}
-          style={{ marginRight: '1rem', width: '50%' }}
+          style={{ marginRight: "1rem", width: "50%" }}
         />
-        <Button variant="outlined" onClick={handleAddEvent} sx={{ padding: '1rem' }}>
+        <Button
+          variant="outlined"
+          onClick={handleAddEvent}
+          sx={{ padding: "1rem" }}
+        >
           Create Event
         </Button>
       </div>
+
       <TableContainer component={Paper} style={{ flexGrow: 1 }}>
         <Table>
           <TableHead>
-            <TableRow className="">
-              <TableRow></TableRow>
+            <TableRow>
               <TableCell>Title</TableCell>
-              <TableCell>Description</TableCell>
+              {/* <TableCell>Description</TableCell> */}
               <TableCell>Date</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedEvents.map((event) => (
+            {paginatedEvents?.map((event) => (
               <TableRow key={event.id} className="row">
                 <TableCell>
                   <Avatar src={event.image} />
                 </TableCell>
                 <TableCell>{event.title}</TableCell>
-                <TableCell>{event.description}</TableCell>
-                <TableCell>{event.date}</TableCell>
+                {/* <TableCell>{event.description}</TableCell> */}
                 <TableCell>
-                  <Button variant="outlined" size="small" onClick={() => handleViewEvent(event)}>
-                    View
-                  </Button>
+                  {format(new Date(event?.date), "MMM d yyyy")}
+                </TableCell>
+                <TableCell>
+                  <IconButton aria-label="view">
+                    <Link to={`/event/${event._id}`}>
+                      <VisibilityIcon />
+                    </Link>
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handleEditEvent(event)}
+                    aria-label="Edit"
+                  >
+                    <ModeEditIcon />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handleDeleteEvent(event._id)}
+                    aria-label="Delete"
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
@@ -137,7 +183,7 @@ const EventList = () => {
       </TableContainer>
       <TablePagination
         component="div"
-        count={filteredEvents.length}
+        count={filteredEvents?.length}
         page={page}
         onPageChange={handlePageChange}
         rowsPerPage={rowsPerPage}
@@ -146,33 +192,39 @@ const EventList = () => {
       />
 
       {/* Modal */}
-      {/* <Modal open={openModal} onClose={handleCloseModal}>
-        <Box className='center_center' sx={{ width: '50%',height: 'auto', overflow:'scroll', position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
-          <AddEventForm />
-        </Box>
-      </Modal> */}
       <Modal open={openModal} onClose={handleCloseModal}>
         <Box
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '80%',
-            maxHeight: '90vh',
-            overflow: 'auto',
-            bgcolor: 'background.paper',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "80%",
+            maxHeight: "90vh",
+            overflow: "auto",
+            bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
           }}
         >
-
-          <AddEventForm />
+          {selectedEvent ? (
+            <EditEventForm
+              event={selectedEvent}
+              onCloseModal={handleCloseModal}
+              onFetchEvents={handleFetchEvents}
+            />
+          ) : (
+            <AddEventForm
+              onCloseModal={handleCloseModal}
+              onFetchEvents={handleFetchEvents}
+            />
+          )}
         </Box>
       </Modal>
+
+      <ToastContainer />
     </div>
   );
 };
 
 export default EventList;
-

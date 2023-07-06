@@ -35,27 +35,6 @@ const Events = () => {
     };
 
     return <>
-
-        {/* <Slider {...settings}>
-            <div className='card_gap'>
-                <MediaCard />
-            </div>
-            <div>
-                <MediaCard />
-            </div>
-            <div>
-                <MediaCard />
-            </div>
-            <div>
-                <MediaCard />
-            </div>
-            <div>
-                <MediaCard />
-            </div>
-            <div>
-                <MediaCard />
-            </div>
-        </Slider> */}
         <SectionContainer>
             <EventSection />
         </SectionContainer>

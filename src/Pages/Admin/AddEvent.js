@@ -1,18 +1,17 @@
-import React from 'react'
-import AddEventForm from '../../Components/Admin/AddEvent'
-import { Card, styled } from '@mui/material'
+import React from "react";
+import AddEventForm from "../../Components/Admin/Event/AddEvent";
+import { Card, styled } from "@mui/material";
 
 const AddEvent = () => {
   return (
     <>
-    <div className='center_center col'>
+      <div className="center_center col">
         {/* <Card sx={{padding: '1rem'}}> */}
-            <AddEventForm />
+        <AddEventForm />
         {/* </Card> */}
-    </div>
+      </div>
     </>
+  );
+};
 
-  )
-}
-
-export default AddEvent
+export default AddEvent;

@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import shortid from 'shortid';
+import React, { useState } from "react";
+import axios from "../../../API/axios";
+import ReactDOM from "react-dom";
+import shortid from "shortid";
 
-import './style.css';
+import "./style.css";
 
 const FileUploadWithPreview = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const formatFileSize = (bytes, decimals = 2) => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return "0 Bytes";
     const k = 1024;
     const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   };
 
   const handleFileChange = (event) => {
@@ -26,7 +27,7 @@ const FileUploadWithPreview = () => {
       name: file.name,
       type: file.type,
       image: URL.createObjectURL(file),
-      datetime: file.lastModifiedDate.toLocaleString('en-IN'),
+      datetime: file.lastModifiedDate.toLocaleString("en-IN"),
       size: formatFileSize(file.size),
     }));
 
@@ -34,26 +35,50 @@ const FileUploadWithPreview = () => {
   };
 
   const handleDeleteSelectedFile = (id) => {
-    if (window.confirm('Are you sure you want to delete this image?')) {
+    if (window.confirm("Are you sure you want to delete this image?")) {
       const updatedFiles = selectedFiles.filter((file) => file.id !== id);
       setSelectedFiles(updatedFiles);
     }
   };
 
-  const handleUpload = (event) => {
+  const handleUpload = async (event) => {
     event.preventDefault();
-    if (selectedFiles.length > 0) {
-      setUploadedFiles((prevFiles) => [...prevFiles, ...selectedFiles]);
-      setSelectedFiles([]);
+    if (selectedFiles?.length > 0) {
+      console.log("hererere");
+      console.log(selectedFiles);
+      const formData = new FormData();
+      selectedFiles?.forEach((file) => formData.append("gallery", file));
+
+      try {
+        const response = await axios.post("/add-gallery", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const { uploadedFiles } = response.data;
+        console.log(response.data);
+
+        setUploadedFiles(uploadedFiles);
+        setSelectedFiles([]);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to upload images.");
+      }
     } else {
-      alert('Please select file(s)');
+      alert("Please select file(s)");
     }
   };
 
-  const handleDeleteFile = (id) => {
-    if (window.confirm('Are you sure you want to delete this image?')) {
-      const updatedFiles = uploadedFiles.filter((file) => file.id !== id);
-      setUploadedFiles(updatedFiles);
+  const handleDeleteFile = async (id) => {
+    if (window.confirm("Are you sure you want to delete this image?")) {
+      try {
+        await axios.delete(`/gallery/delete/${id}`);
+        const updatedFiles = uploadedFiles.filter((file) => file.id !== id);
+        setUploadedFiles(updatedFiles);
+      } catch (error) {
+        console.error(error);
+        alert("Failed to delete the image.");
+      }
     }
   };
 
@@ -74,13 +99,13 @@ const FileUploadWithPreview = () => {
                     <div className="file-upload-box">
                       <input
                         type="file"
-                        id="fileupload"
                         className="file-upload-input"
                         onChange={handleFileChange}
                         multiple
                       />
                       <span>
-                        Drag and drop or <span className="file-link">Choose your files</span>
+                        Drag and drop or{" "}
+                        <span className="file-link">Choose your files</span>
                       </span>
                     </div>
                   </div>
@@ -101,7 +126,9 @@ const FileUploadWithPreview = () => {
                           <p></p>
                           <p>
                             <span>Size: {file.size}</span>
-                            <span className="ml-2">Modified Time: {file.datetime}</span>
+                            <span className="ml-2">
+                              Modified Time: {file.datetime}
+                            </span>
                           </p>
                           <div className="file-actions">
                             <button
@@ -117,12 +144,15 @@ const FileUploadWithPreview = () => {
                     ))}
                   </div>
                   <div className="kb-buttons-box">
-                    <button type="submit" className="btn btn-primary form-submit">
+                    <button
+                      type="submit"
+                      className="btn btn-primary form-submit"
+                    >
                       Upload
                     </button>
                   </div>
                 </form>
-                {uploadedFiles.length > 0 && (
+                {uploadedFiles?.length > 0 && (
                   <div className="kb-attach-box">
                     <hr />
                     {uploadedFiles.map((file) => (
@@ -140,7 +170,9 @@ const FileUploadWithPreview = () => {
                           <h6>{file.name}</h6>
                           <p>
                             <span>Size: {file.size}</span>
-                            <span className="ml-3">Modified Time: {file.datetime}</span>
+                            <span className="ml-3">
+                              Modified Time: {file.datetime}
+                            </span>
                           </p>
                           <div className="file-actions">
                             <button

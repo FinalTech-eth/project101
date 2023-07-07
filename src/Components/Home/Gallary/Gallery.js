@@ -1,39 +1,48 @@
-import React from 'react';
-import { styled } from '@mui/material/styles';
-import ImageGallery from 'react-image-gallery';
-import 'react-image-gallery/styles/css/image-gallery.css';
-import { Gallery } from 'react-grid-gallery';
-import img1 from '../../../Assets/Images/download (2).jpg'
-import img2 from '../../../Assets/Images/download.jpg'
-
-const images = [
-{
-original: img1,
-thumbnail: img1,
-originalAlt: 'Image 1',
-thumbnailAlt: 'Thumbnail 1',
-},
-{
-original: img2,
-thumbnail: img2,
-originalAlt: 'Image 2',
-thumbnailAlt: 'Thumbnail 2',
-},
-// Add more images as needed
-];
+import React, { useState, useEffect } from "react";
+import ImageGallery from "react-image-gallery";
+import "react-image-gallery/styles/css/image-gallery.css";
+import axios from "../../../API/axios";
 
 const GalleryComponent = () => {
-return (
-<div>
-<ImageGallery
-     items={images}
-     showFullscreenButton={false}
-     showPlayButton={false}
-     autoPlay
-     slideInterval={5000}
-   />
-</div>
-);
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  const fetchImages = async () => {
+    try {
+      const response = await axios.get("/gallery");
+      const transformedImages = response.data.items.map((item) => ({
+        original: item.image,
+        thumbnail: item.image,
+        originalAlt: `Image ${item._id}`,
+        thumbnailAlt: `Thumbnail ${item._id}`,
+      }));
+      setImages(transformedImages);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <ImageGallery
+        items={images}
+        showFullscreenButton={false}
+        showPlayButton={false}
+        autoPlay
+        slideInterval={5000}
+      />
+    </div>
+  );
 };
 
 export default GalleryComponent;

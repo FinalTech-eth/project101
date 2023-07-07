@@ -11,29 +11,33 @@ import AddEvent from './Pages/Admin/AddEvent';
 import AdminSideBar from './Components/Admin/SideBar';
 import AllEvents from './Pages/Admin/AllEvents';
 import GalleryImages from './Pages/Admin/Gallery';
+import AllImages from './Pages/Admin/Gallery/AllImages';
 import './App.css'
 
-function App() {
-  return <>
-    <Router>
-      <Routes>
-        <Route path='/' element={<ClientSharedLayout />}>
-          <Route index element={<Home />} />
-          <Route path='about' element={<About />} />
-          <Route path='gallery' element={<Gallery />} />
-          <Route path='event/:id' element={<SingleEventPage />} />
-        </Route>
-        <Route path='/dashboard' element={<AdminSideBar />} >
-          <Route index element={<Dashboard />} />
-          <Route path='add-event' element={<AddEvent />} />
-          <Route path='events' element={<AllEvents />} />
-          <Route path='gallery' element={<GalleryImages />} />
-        </Route>
 
-        <Route path="*" element={<Error />} />
-      </Routes>
-    </Router>
-  </>
+function App() {
+  return (
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<ClientSharedLayout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="gallery" element={<Gallery />} />
+            <Route path="event/:id" element={<SingleEventPage />} />
+          </Route>
+          <Route path="/dashboard" element={<AdminSideBar />}>
+            <Route index element={<Dashboard />} />
+            <Route path="add-event" element={<AddEvent />} />
+            <Route path="events" element={<AllEvents />} />
+            <Route path="gallery" element={<AllImages />} />
+          </Route>
+
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </Router>
+    </>
+  );
 }
 
 export default App;

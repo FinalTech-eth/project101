@@ -15,7 +15,7 @@ const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
     reset,
     setValue,
   } = useForm();
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
       formData.append("image", selectedImage);
 
       // Make a PUT request using Axios and the FormData
-      await axios.put(`/event/update/${event._id}`, formData, {
+      await axios.put(`/api/event/update/${event._id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

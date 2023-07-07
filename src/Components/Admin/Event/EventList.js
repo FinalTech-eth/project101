@@ -44,16 +44,19 @@ const EventList = () => {
     fetchEvents();
   }, []);
 
-  const fetchEvents = async () => {
-    try {
-      const response = await axios.get("/event");
-      setEvents(response.data.items);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
+ const fetchEvents = async () => {
+   try {
+     const response = await axios.get("/event");
+     const sortedEvents = response.data.items.sort((a, b) => {
+       return new Date(b.createdAt) - new Date(a.createdAt);
+     });
+     setEvents(sortedEvents);
+     setIsLoading(false);
+   } catch (error) {
+     console.error(error);
+     setIsLoading(false);
+   }
+ };
 
   const handleEditEvent = (event) => {
     setSelectedEvent(event);

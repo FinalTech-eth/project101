@@ -20,8 +20,13 @@ export default function AllImagesGallery() {
   const fetchImages = async () => {
     try {
       const response = await axios.get("/gallery");
-      console.log(response.data)
-      setImages(response.data.items);
+      const transformedImages = response.data.items.map((item) => ({
+        src: item.image,
+        original: item.image,
+        width: 320,
+        height: 213,
+      }));
+      setImages(transformedImages);
       setIsLoading(false);
     } catch (error) {
       console.error(error);

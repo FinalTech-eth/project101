@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { TextField, Button, Box, Typography, MenuItem } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import axios from "../../../API/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SaveIcon from "@mui/icons-material/Save";
+import EventCategories from "../../../Enums/EventCategory";
 
 const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
   const {
@@ -26,7 +27,8 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
       formData.append("title", data.title);
       formData.append("description", data.description);
       formData.append("location", data.location);
-      formData.append("date", data.date);
+      formData.append("date", data.date); // Use "datetime" instead of "date"
+      formData.append("category", data.category); // Add the category field
       formData.append("image", selectedImage);
 
       // Make a POST request using Axios and the FormData
@@ -96,16 +98,32 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
         helperText={errors.location && "Location is required"}
       />
       <TextField
-        label="Date"
-        type="date"
+        label="Date and time" // Update the label to "Datetime"
+        type="datetime-local" // Use "datetime-local" input type for datetime
         variant="outlined"
         {...register("date", { required: true })}
         error={!!errors.date}
-        helperText={errors.date && "Date is required"}
+        helperText={errors.date && "Date and time is required"}
         InputLabelProps={{
           shrink: true,
         }}
       />
+      <TextField
+        label="Category"
+        select
+        variant="outlined"
+        {...register("category", { required: true })}
+        error={!!errors.category}
+        helperText={errors.category && "Category is required"}
+      >
+        {Object.values(EventCategories).map((category) => (
+          <MenuItem key={category} value={category}>
+            {category}
+          </MenuItem>
+        ))}
+        <MenuItem value="other">Other</MenuItem>
+      </TextField>
+
       <Box sx={{ mt: 2 }}>
         <label htmlFor="image-upload">
           <input

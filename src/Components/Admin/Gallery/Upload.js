@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import axios from "../../../API/axios";
 import ReactDOM from "react-dom";
 import shortid from "shortid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loading from "../../Loading";
 
 import "./style.css";
 
 const FileUploadWithPreview = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const formatFileSize = (bytes, decimals = 2) => {
     if (bytes === 0) return "0 Bytes";
@@ -22,16 +26,18 @@ const FileUploadWithPreview = () => {
     const files = event.target.files;
     const fileArray = Array.from(files);
 
-    const updatedFiles = fileArray.map((file) => ({
-      id: shortid.generate(),
-      name: file.name,
-      type: file.type,
-      image: URL.createObjectURL(file),
-      datetime: file.lastModifiedDate.toLocaleString("en-IN"),
-      size: formatFileSize(file.size),
-    }));
-
-    setSelectedFiles((prevFiles) => [...prevFiles, ...updatedFiles]);
+    setSelectedFiles((prevFiles) => [
+      ...prevFiles,
+      ...fileArray.map((file) => ({
+        id: shortid.generate(),
+        file: file,
+        name: file.name,
+        type: file.type,
+        size: formatFileSize(file.size),
+        datetime: file.lastModifiedDate.toLocaleString("en-IN"),
+        image: URL.createObjectURL(file),
+      })),
+    ]);
   };
 
   const handleDeleteSelectedFile = (id) => {
@@ -43,11 +49,13 @@ const FileUploadWithPreview = () => {
 
   const handleUpload = async (event) => {
     event.preventDefault();
-    if (selectedFiles?.length > 0) {
-      console.log("hererere");
-      console.log(selectedFiles);
+    if (selectedFiles.length > 0) {
+      setIsLoading(true);
+
       const formData = new FormData();
-      selectedFiles?.forEach((file) => formData.append("gallery", file));
+      selectedFiles.forEach((file) => {
+        formData.append("images", file.file);
+      });
 
       try {
         const response = await axios.post("/add-gallery", formData, {
@@ -55,17 +63,19 @@ const FileUploadWithPreview = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        const { uploadedFiles } = response.data;
-        console.log(response.data);
 
+        const uploadedFiles = response.data.message;
         setUploadedFiles(uploadedFiles);
         setSelectedFiles([]);
+        toast.success("Images uploaded successfully!");
       } catch (error) {
         console.error(error);
-        alert("Failed to upload images.");
+        toast.error("Failed to upload images.");
+      } finally {
+        setIsLoading(false);
       }
     } else {
-      alert("Please select file(s)");
+      toast.error("Please select file(s)");
     }
   };
 
@@ -73,11 +83,12 @@ const FileUploadWithPreview = () => {
     if (window.confirm("Are you sure you want to delete this image?")) {
       try {
         await axios.delete(`/gallery/delete/${id}`);
-        const updatedFiles = uploadedFiles.filter((file) => file.id !== id);
+        const updatedFiles = uploadedFiles.filter((file) => file._id !== id);
         setUploadedFiles(updatedFiles);
+        toast.success("Image deleted successfully!");
       } catch (error) {
         console.error(error);
-        alert("Failed to delete the image.");
+        toast.error("Failed to delete the image.");
       }
     }
   };
@@ -94,7 +105,10 @@ const FileUploadWithPreview = () => {
                     <h6>Upload your image</h6>
                   </div>
                 </div>
-                <form onSubmit={handleUpload}>
+                <form
+                  onSubmit={handleUpload}
+                  encType="multipart/form-data" // Set the form's encoding type to multipart/form-data
+                >
                   <div className="kb-file-upload">
                     <div className="file-upload-box">
                       <input
@@ -112,18 +126,11 @@ const FileUploadWithPreview = () => {
                   <div className="kb-attach-box mb-3">
                     {selectedFiles.map((file) => (
                       <div className="file-atc-box" key={file.id}>
-                        {file.name.match(/.(jpg|jpeg|png|gif|svg)$/i) ? (
-                          <div className="file-image">
-                            <img src={file.image} alt="" />
-                          </div>
-                        ) : (
-                          <div className="file-image">
-                            <i className="far fa-file-alt"></i>
-                          </div>
-                        )}
+                        <div className="file-image">
+                          <img src={file.image} alt="" />
+                        </div>
                         <div className="file-detail">
                           <h6>{file.name}</h6>
-                          <p></p>
                           <p>
                             <span>Size: {file.size}</span>
                             <span className="ml-2">
@@ -152,20 +159,15 @@ const FileUploadWithPreview = () => {
                     </button>
                   </div>
                 </form>
-                {uploadedFiles?.length > 0 && (
+                {isLoading && <Loading />}
+                {uploadedFiles.length > 0 && (
                   <div className="kb-attach-box">
                     <hr />
                     {uploadedFiles.map((file) => (
-                      <div className="file-atc-box" key={file.id}>
-                        {file.name.match(/.(jpg|jpeg|png|gif|svg)$/i) ? (
-                          <div className="file-image">
-                            <img src={file.image} alt="" />
-                          </div>
-                        ) : (
-                          <div className="file-image">
-                            <i className="far fa-file-alt"></i>
-                          </div>
-                        )}
+                      <div className="file-atc-box" key={file._id}>
+                        <div className="file-image">
+                          <img src={file.image} alt="" />
+                        </div>
                         <div className="file-detail">
                           <h6>{file.name}</h6>
                           <p>
@@ -177,7 +179,7 @@ const FileUploadWithPreview = () => {
                           <div className="file-actions">
                             <button
                               className="file-action-btn"
-                              onClick={() => handleDeleteFile(file.id)}
+                              onClick={() => handleDeleteFile(file._id)}
                             >
                               <i className="fas fa-trash-alt"></i>
                             </button>
@@ -199,6 +201,7 @@ const FileUploadWithPreview = () => {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };

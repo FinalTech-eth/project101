@@ -87,7 +87,6 @@ const filteredEvents = events.filter((event) => {
           </MenuItem>
         </Select>
       </HeaderContainer>
-<<<<<<< HEAD
 
       {filteredEvents.length === 0 ? (
         <Typography variant="body1" align="center">
@@ -107,16 +106,6 @@ const filteredEvents = events.filter((event) => {
           ))}
         </Grid>
       )}
-=======
-    
-      <Grid container spacing={2}>
-        {filteredEvents.map(event => (
-          <Grid key={event.id} item xs={12} sm={6} md={4}>
-            <MediaCard id={event._id} url={event.image} title={event.title} date={event.date} />
-          </Grid>
-        ))}
-      </Grid>
->>>>>>> ed6fc9dfc10b143894e260a7f93d5d49317dc7a8
     </Box>
   );
 };

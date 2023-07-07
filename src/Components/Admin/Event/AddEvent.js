@@ -136,6 +136,7 @@ const token = admin.token;
             accept="image/*"
             onChange={handleImageChange}
             style={{ display: "none" }}
+            required
           />
           <Button variant="contained" component="span">
             Upload Image

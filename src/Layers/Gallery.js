@@ -13,7 +13,7 @@ const GalleryLayer = () => {
           <Button
             component={Link}
             to="/gallery"
-            variant="contained"
+            variant="outlined"
             color="primary"
             size="large"
             sx={{ margin: '2rem', padding: '1rem', width: "fit-content" }}

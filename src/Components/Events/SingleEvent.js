@@ -1,44 +1,58 @@
-import { useState, useEffect } from 'react';
-import { Typography, Container, Grid } from '@mui/material';
-import img from '../../Assets/Images/download.jpg';
-import bgUrl from '../../Assets/Images/beige-texture.jpg';
-import axios from '../../API/axios';
-import Loading from '../Loading';
-import { useParams } from 'react-router-dom';
-import { format } from "date-fns";
+import { useState, useEffect } from "react";
+import { Typography, Container, Grid } from "@mui/material";
+import img from "../../Assets/Images/download.jpg";
+import bgUrl from "../../Assets/Images/beige-texture.jpg";
+import axios from "../../API/axios";
+import Loading from "../Loading";
+import { useParams } from "react-router-dom";
+import { format, parseISO, isValid } from "date-fns";
 
-const SingleEvent = ({title, description, date, location}) => {
+const SingleEvent = ({ title, description, date, location }) => {
+  const [formattedDate, setFormattedDate] = useState("");
+  const [formattedTime, setFormattedTime] = useState("");
 
-  // const formattedDate = format(new Date(date), "MMM d yyyy");
+  useEffect(() => {
+    const parsedDate = parseISO(date);
+
+    if (isValid(parsedDate)) {
+      const formattedDateString = format(parsedDate, "MMM d, yyyy");
+      const formattedTimeString = format(parsedDate, "hh:mm a");
+      setFormattedDate(formattedDateString);
+      setFormattedTime(formattedTimeString);
+    } else {
+      setFormattedDate("Invalid Date");
+      setFormattedTime("");
+    }
+  }, [date]);
 
   const containerStyle = {
-    paddingTop: '5rem',
-    paddingBottom: '7rem',
+    paddingTop: "5rem",
+    paddingBottom: "7rem",
     backgroundImage: `url(${bgUrl})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    maxWidth: '100vw',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    maxWidth: "100vw",
   };
 
   const titleStyle = {
-    marginBottom: '2rem',
-    fontWeight: 'bold',
+    marginBottom: "2rem",
+    fontWeight: "bold",
   };
 
   const imageStyle = {
-    width: '100%',
-    height: 'auto',
-    borderRadius: '1rem',
+    width: "100%",
+    height: "auto",
+    borderRadius: "1rem",
   };
 
   const contentStyle = {
-    marginTop: '2rem',
+    marginTop: "2rem",
   };
 
   const eventContent = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   return (
@@ -49,10 +63,10 @@ const SingleEvent = ({title, description, date, location}) => {
             {title}
           </Typography>
           <Typography variant="subtitle1" style={contentStyle}>
-            {/* <strong>Date:</strong> {formattedDate} */}
+            <strong>Date:</strong> {formattedDate}
           </Typography>
           <Typography variant="subtitle1" style={contentStyle}>
-            {/* <strong>Time:</strong> 7:00 PM - 10:00 PM */}
+            <strong>Time:</strong> {formattedTime}
           </Typography>
           <Typography variant="subtitle1" style={contentStyle}>
             <strong>Location:</strong> {location}

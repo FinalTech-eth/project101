@@ -148,6 +148,7 @@ const EventList = () => {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               <TableCell>Title</TableCell>
               {/* <TableCell>Description</TableCell> */}
               <TableCell>Date</TableCell>

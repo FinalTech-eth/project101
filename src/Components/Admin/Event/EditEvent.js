@@ -8,6 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import SaveIcon from "@mui/icons-material/Save";
 
 const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  const token = admin.token;
+
   const {
     register,
     handleSubmit,
@@ -42,6 +45,7 @@ const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
       await axios.put(`/event/update/${event._id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          'Authorization': `Bearer ${token}`
         },
       });
 

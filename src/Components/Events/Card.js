@@ -18,7 +18,6 @@ const CardContainer = styled(Card)(() => ({
     transform: 'scale(1.02)',
   },
 }));
-
 const CardOverlay = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
@@ -28,6 +27,7 @@ const CardOverlay = styled('div')(() => ({
 
 export default function MediaCard({ id, url, title, date }) {
   const formattedDate = format(new Date(date), 'MMM d yyyy');
+ 
 
   return (
     <Link to={`/event/${id}`} style={{ textDecoration: 'none' }}>

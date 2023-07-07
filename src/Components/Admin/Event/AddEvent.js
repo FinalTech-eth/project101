@@ -8,6 +8,9 @@ import "react-toastify/dist/ReactToastify.css";
 import SaveIcon from "@mui/icons-material/Save";
 
 const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
+  const admin = JSON.parse(localStorage.getItem("admin"));
+const token = admin.token;
+
   const {
     register,
     handleSubmit,
@@ -16,7 +19,7 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
   } = useForm();
   const [selectedImage, setSelectedImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+ 
   const handleFormSubmit = async (data) => {
     try {
       setIsSubmitting(true);
@@ -33,6 +36,7 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
       await axios.post("/add-event", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          'Authorization': `Bearer ${token}`
         },
       });
 

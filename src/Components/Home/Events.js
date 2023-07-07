@@ -22,7 +22,6 @@ const EventSection = () => {
   useEffect(() => {
     fetchEvents();
   }, []);
-
   const fetchEvents = async () => {
     try {
       const response = await axios.get('/event');
@@ -61,7 +60,7 @@ const EventSection = () => {
           </Grid>
         </Grid>
       </HeaderContainer>
-
+    
       <Grid container spacing={2}>
         {filteredEvents.map(event => (
           <Grid key={event.id} item xs={12} sm={6} md={4}>

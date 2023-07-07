@@ -6,6 +6,8 @@ import shortid from "shortid";
 import "./style.css";
 
 const FileUploadWithPreview = () => {
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  const token = admin.token;
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
@@ -53,6 +55,7 @@ const FileUploadWithPreview = () => {
         const response = await axios.post("/add-gallery", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            'Authorization': `Bearer ${token}`
           },
         });
         const { uploadedFiles } = response.data;
@@ -72,7 +75,10 @@ const FileUploadWithPreview = () => {
   const handleDeleteFile = async (id) => {
     if (window.confirm("Are you sure you want to delete this image?")) {
       try {
-        await axios.delete(`/gallery/delete/${id}`);
+        await axios.delete(`/gallery/delete/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }});
         const updatedFiles = uploadedFiles.filter((file) => file.id !== id);
         setUploadedFiles(updatedFiles);
       } catch (error) {

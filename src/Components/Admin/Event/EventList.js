@@ -32,6 +32,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const EventList = () => {
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  const token = admin.token;
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -65,7 +67,10 @@ const EventList = () => {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      await axios.delete(`/event/delete/${eventId}`);
+      await axios.delete(`/event/delete/${eventId}`,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }});
       fetchEvents(); // Fetch events again after deletion to update the list
       toast.success("Event deleted successfully!");
     } catch (error) {

@@ -11,9 +11,35 @@ import AddEvent from './Pages/Admin/AddEvent';
 import AdminSideBar from './Components/Admin/SideBar';
 import AllEvents from './Pages/Admin/AllEvents';
 import GalleryImages from './Pages/Admin/Gallery';
+<<<<<<< HEAD
 import AllImages from './Pages/Admin/Gallery/AllImages';
 import './App.css'
 
+=======
+import SignIn from './Pages/Admin/Auth/SignIn';
+import RequiredAuth from './Components/RequiredAuth';
+import './App.css'
+
+function App() {
+  return <>
+    <Router>
+      <Routes>
+        <Route path='/' element={<ClientSharedLayout />}>
+          <Route index element={<Home />} />
+          <Route path='about' element={<About />} />
+          <Route path='gallery' element={<Gallery />} />
+          <Route path='event/:id' element={<SingleEventPage />} />
+        </Route>
+          <Route path='admin' element={<SignIn />} />
+          <Route element={<RequiredAuth />}>
+        <Route path='/dashboard' element={<AdminSideBar />} >
+          <Route index element={<Dashboard />} />
+          <Route path='add-event' element={<AddEvent />} />
+          <Route path='events' element={<AllEvents />} />
+          <Route path='gallery' element={<GalleryImages />} />
+        </Route>
+        </Route>
+>>>>>>> ed6fc9dfc10b143894e260a7f93d5d49317dc7a8
 
 function App() {
   return (

@@ -6,6 +6,18 @@ import AnnouncementIcon from '@mui/icons-material/Announcement';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 
 const Dashboard = () => {
+  function checkTokenExpiry() {
+    const expiryTime = JSON.parse(localStorage.getItem("expiryTime"));
+    
+    if (new Date().getTime() >= expiryTime) {
+      // Token has expired, remove it from local storage
+      localStorage.removeItem("admin");
+      localStorage.removeItem("expiryTime");
+    }
+  }
+  
+  // Set a timeout to trigger the token expiry check after 24 hours
+  setTimeout(checkTokenExpiry, 24 * 60 * 60 * 1000);
   return (
     <div>
       <Grid container spacing={2}>

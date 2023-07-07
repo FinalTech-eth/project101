@@ -9,6 +9,8 @@ import Loading from "../../Loading";
 import "./style.css";
 
 const FileUploadWithPreview = () => {
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  const token = admin.token;
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -61,6 +63,7 @@ const FileUploadWithPreview = () => {
         const response = await axios.post("/add-gallery", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            'Authorization': `Bearer ${token}`
           },
         });
 
@@ -82,8 +85,16 @@ const FileUploadWithPreview = () => {
   const handleDeleteFile = async (id) => {
     if (window.confirm("Are you sure you want to delete this image?")) {
       try {
+<<<<<<< HEAD
         await axios.delete(`/gallery/delete/${id}`);
         const updatedFiles = uploadedFiles.filter((file) => file._id !== id);
+=======
+        await axios.delete(`/gallery/delete/${id}`,{
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }});
+        const updatedFiles = uploadedFiles.filter((file) => file.id !== id);
+>>>>>>> ed6fc9dfc10b143894e260a7f93d5d49317dc7a8
         setUploadedFiles(updatedFiles);
         toast.success("Image deleted successfully!");
       } catch (error) {

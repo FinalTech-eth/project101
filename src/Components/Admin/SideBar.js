@@ -22,7 +22,11 @@ import EventIcon from '@mui/icons-material/Event';
 import AnnouncementIcon from '@mui/icons-material/Announcement';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import { Link, Outlet } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import axios from "../../API/axios";
+import { toast, ToastContainer } from "react-toastify";
+
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -90,6 +94,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 }));
 
 export default function AdminSharedLayout() {
+    const navigate = useNavigate();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -100,6 +105,18 @@ export default function AdminSharedLayout() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            await axios.post("/auth/signout");
+            localStorage.removeItem("admin");
+            navigate('/')
+        } catch (error) {
+            toast.error(error.response.data.message);
+        }
+
+
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -118,6 +135,15 @@ export default function AdminSharedLayout() {
                     <Typography variant="h6" noWrap component="div">
                         Admin Panel
                     </Typography>
+                    <Button
+                    type="submit"
+                    // fullWidth
+                    variant="contained"
+                    onClick={handleSubmit}
+                    sx={{ mt: 3, mb: 2, backgroundColor: 'white', color: 'black', position: 'absolute', right: 6 }}
+                    >
+                    Sign Out
+                        </Button>
                 </Toolbar>
             </AppBar>
             <Drawer variant="permanent" open={open}>

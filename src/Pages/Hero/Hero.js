@@ -111,7 +111,7 @@ function SwipeableTextMobileStepper() {
                   height: "100vh",
                   display: "block",
                   overflow: "hidden",
-                  width: "100%",
+                  width: "100vw",
                   objectFit: "cover",
                 }}
                 src={step.imgPath}

@@ -40,7 +40,7 @@ const SectionContainer = styled(Box)(({ theme }) => ({
     position: 'relative',
     width: '100%',
     minHeight: '100vh',
-    padding: '7rem 0',
+    padding: '7rem 1rem',
     margin: '7rem 0',
     backgroundImage: `url(${bgimage})`,
     backgroundSize: 'cover',

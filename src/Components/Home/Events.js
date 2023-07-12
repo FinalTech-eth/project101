@@ -59,7 +59,9 @@ const EventSection = () => {
   if (isLoading) {
     return <Loading />;
   }
-
+  if (events?.length === 0) {
+    return
+  }
   return (
     <div id="events">
       <HeaderContainer>

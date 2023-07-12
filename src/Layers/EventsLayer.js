@@ -13,7 +13,7 @@ const SectionContainer = styled('h2')(()=>({
 
 const Events = () => {
     return <>
-        <SectionContainer>
+        <SectionContainer id='events'>
             <EventSection />
         </SectionContainer>
     </>

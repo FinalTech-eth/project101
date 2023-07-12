@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Index";
 import About from "./Pages/About";
 import Gallery from "./Pages/Gallery";
-import Error from "./Pages/Error";
+import NotFoundPage from "./Pages/Error";
 import SingleEventPage from "./Pages/Event/SingleEvent";
 import ClientSharedLayout from "./Layers/SharedLayouts/ClientSharedLayout";
 import AdminSharedLayout from "./Layers/SharedLayouts/AdminSharedLayout";
@@ -37,7 +37,7 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="*" element={<Error />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </>

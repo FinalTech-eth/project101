@@ -1,11 +1,36 @@
-import React from 'react'
+import React from "react";
+import { Typography, Button, Box } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 
-const Error = () => {
-  return <>
-    <h1>404 </h1>
-    <h1>Page not found  </h1>
-  
-  </>
-}
+const ErrorContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "100vh",
+}));
 
-export default Error
+const ErrorText = styled(Typography)(({ theme }) => ({
+  fontSize: "4rem",
+  fontWeight: "bold",
+  marginBottom: "1rem",
+}));
+
+const ErrorButton = styled(Button)(({ theme }) => ({
+  marginTop: "2rem",
+}));
+
+const NotFoundPage = () => {
+  return (
+    <ErrorContainer>
+      <ErrorText variant="h1">404</ErrorText>
+      <Typography variant="h5">Oops! Page not found.</Typography>
+      <ErrorButton component={Link} to="/" variant="contained" color="primary">
+        Go Home
+      </ErrorButton>
+    </ErrorContainer>
+  );
+};
+
+export default NotFoundPage;

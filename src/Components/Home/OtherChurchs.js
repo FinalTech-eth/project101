@@ -3,7 +3,7 @@ import { Box, Typography, Card, CardContent, CardMedia } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import img1 from '../../Assets/Images/download (2).jpg';
 import img2 from '../../Assets/Images/download.jpg';
-
+import bgimage from '../../Assets/Images/photo_5823502271126815190_y.jpg'
 const churchData = [
     {
         id: 1,
@@ -42,7 +42,7 @@ const SectionContainer = styled(Box)(({ theme }) => ({
     minHeight: '100vh',
     padding: '7rem 0',
     margin: '7rem 0',
-    backgroundImage: `url(${img1})`,
+    backgroundImage: `url(${bgimage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
 }));

@@ -15,7 +15,7 @@ import "./navBar.css";
 import {useNavigate} from "react-router-dom"
 const pages = [
   {name:"Events",
-  url:"#events"}, 
+  url:"#Events"}, 
   {name:"Notice",
   url:"#notice"},
    {name:"Gallery",
@@ -23,7 +23,8 @@ const pages = [
   {name:"Other-churches",
   url:"#Other-churches"} ,
   {name:"About Us",
-  url:"about"} ];
+  url:"about"} 
+];
 
 export const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);

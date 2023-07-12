@@ -45,24 +45,23 @@ const EventSection = () => {
     setSelectedCategory(event.target.value);
   };
 
-const filteredEvents = events.filter((event) => {
-  if (selectedCategory === EventCategories.ALL) {
-    return new Date(event.date) >= currentDate;
-  } else {
-    return (
-      event?.category?.includes(selectedCategory) &&
-      new Date(event.date) >= currentDate
-    );
-  }
-});
-
+  const filteredEvents = events.filter((event) => {
+    if (selectedCategory === EventCategories.ALL) {
+      return new Date(event.date) >= currentDate;
+    } else {
+      return (
+        event?.category?.includes(selectedCategory) &&
+        new Date(event.date) >= currentDate
+      );
+    }
+  });
 
   if (isLoading) {
     return <Loading />;
   }
 
   return (
-    <Box>
+    <div id="events">
       <HeaderContainer>
         <Typography variant="h4">Events</Typography>
         <Select
@@ -106,7 +105,7 @@ const filteredEvents = events.filter((event) => {
           ))}
         </Grid>
       )}
-    </Box>
+    </div>
   );
 };
 

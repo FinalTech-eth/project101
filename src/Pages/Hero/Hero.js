@@ -6,31 +6,40 @@ import Typography from "@mui/material/Typography";
 import SwipeableViews from "react-swipeable-views";
 import { autoPlay } from "react-swipeable-views-utils";
 import "./hero.css";
+import img1 from "../../Assets/Images/photo_4958761978181037036_y.jpg";
+import img2 from "../../Assets/Images/photo_4958761978181037038_y.jpg";
+import img3 from "../../Assets/Images/photo_4958761978181037043_y.jpg";
+import img4 from "../../Assets/Images/photo_4958761978181037044_y.jpg";
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
   {
-    title: "WELLCOME TO OUR CHURCH",
-    label: "join the prayer",
-    imgPath: "https://wallpaperaccess.com/full/1239452.jpg",
+    title: "WELCOME TO OUR CHURCH",
+    label: "Join the Prayer",
+    article: "",
+    imgPath: img1,
   },
   {
-    title: "FIND JESUSE",
-    label: "God has plan for you",
-    imgPath:
-      "https://www.catholicfoundationmt.org/wp-content/uploads/2019/03/five-loaf.jpeg",
+    title: "Hear, O Israel:",
+    label: " The LORD our God is one Lord.",
+    article: "Deuteronomy 6:4",
+
+    imgPath: img2,
   },
   {
-    title: "CONNECT AND GROW",
-    label: "Prayer Elegant",
-    imgPath: "https://wallpaperaccess.com/full/1686985.jpg",
+    title: "And the LORD shall be king over all the earth:",
+    label: "In that day shall there be one LORD, and his name one.",
+    article: "Zechariah 14:9 ",
+
+    imgPath: img3,
   },
   {
-    title: "I Will Build My Church",
-    label: "Upon This Rock ",
-    imgPath:
-      "https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YmlibGUlMjByZWFkaW5nfGVufDB8fDB8fHww&w=1000&q=80",
+    title: "Thou believest that there is one God;",
+    label: "Thou doest well: the devils also believe, and tremble.",
+    article: "James 2:19",
+
+    imgPath: img4,
   },
 ];
 
@@ -43,8 +52,8 @@ function SwipeableTextMobileStepper() {
   };
 
   return (
-    <Box sx={{ Width: "100%", flexGrow: 1 }}>
-      <div>
+    <Box sx={{ width: "100%", flexGrow: 1 }}>
+      <div className="home_hero_container">
         <Paper
           square
           elevation={0}
@@ -52,15 +61,34 @@ function SwipeableTextMobileStepper() {
             display: "flex",
             flexDirection: "column",
             alignItems: "left",
-            justifyContent: "left",
-           
-            width: "50vw",
-            pl: 2,
+            justifyContent: "center",
+            padding: "2rem",
+            background: "rgba(0, 0, 0, 0.5)",
+            color: "white",
+            height: "100%",
           }}
           id="hero-text"
         >
-          <Typography sx={{fontSize: "3vw"}}>{images[activeStep].label}</Typography>
-          <Typography sx={{fontSize: "8vw"}}>{images[activeStep].title}</Typography>
+          <Typography
+            variant="h2"
+            id="hero_header_2"
+            sx={{ textAlign: "left", marginBottom: "2rem" }}
+          >
+            {images[activeStep].title}
+          </Typography>
+          <Typography
+            variant="h4"
+            id="hero_header_1"
+            sx={{ textAlign: "left", marginBottom: "1rem" }}
+          >
+            {images[activeStep].label}
+          </Typography>
+          <Typography
+            sx={{ textAlign: "left", marginBottom: "1rem" }}
+            variant="h6"
+          >
+            {images[activeStep].article}
+          </Typography>
         </Paper>
         <hr className="hLine-1" />
         <hr className="hLine-2" />
@@ -84,6 +112,7 @@ function SwipeableTextMobileStepper() {
                   display: "block",
                   overflow: "hidden",
                   width: "100%",
+                  objectFit: "cover",
                 }}
                 src={step.imgPath}
                 alt={step.label}

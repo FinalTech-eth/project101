@@ -63,7 +63,7 @@ export const ResponsiveAppBar = () => {
       position="fixed"
       id="nav-transparent"
       sx={{
-        background: `${color ? "#3c3f4a" : "transparent"} `,
+        background: `${color ? "#606888d6" : "transparent"} `,
         boxShadow: "none",
       }}
       className="navBar-Container"
@@ -123,9 +123,12 @@ export const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.url} onClick={()=>{
-                  navigate(`/${page.url}`)
-                }}>
+                <MenuItem
+                  key={page.url}
+                  onClick={() => {
+                    navigate(`/${page.url}`);
+                  }}
+                >
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -153,8 +156,8 @@ export const ResponsiveAppBar = () => {
             {pages.map((page) => (
               <Button
                 key={page.url}
-                onClick={()=>{
-                  navigate(`/${page.url}`)
+                onClick={() => {
+                  navigate(`/${page.url}`);
                 }}
                 sx={{ my: 3, color: "white", display: "block" }}
               >

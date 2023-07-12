@@ -1,11 +1,11 @@
 import "./styles.css";
-
+import img from '../../Assets/Images/photo_5823502271126815178_y.jpg'
 const NoticeBoard = () => {
   return (
     <div className="notice-board-container">
       <div className="notice-board-img-container">
         <img
-          src="https://mediahub.unc.edu/wp-content/uploads/2022/04/WorshippersAtWatts-1024x570.jpeg"
+          src={img}
           alt="church worship time"
         />
       </div>

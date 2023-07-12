@@ -12,20 +12,17 @@ const Home = () => {
         <SwipeableTextMobileStepper />
       </section>
       <section id="Events">
-      <Events />
+        <Events />
       </section>
       <section id="Gallery">
-      <GalleryLayer />
+        <GalleryLayer />
       </section>
       <section className="other-churches">
-      <OtherChurchs />
+        <OtherChurchs />
       </section>
       <section className="notice">
-
-      <NoticeBoard />
+        <NoticeBoard />
       </section>
-     
-     
     </>
   );
 };

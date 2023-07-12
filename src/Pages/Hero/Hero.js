@@ -66,6 +66,7 @@ function SwipeableTextMobileStepper() {
             background: "rgba(0, 0, 0, 0.5)",
             color: "white",
             height: "100%",
+            overflow: 'hidden'
           }}
           id="hero-text"
         >

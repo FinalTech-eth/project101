@@ -55,6 +55,11 @@ body {
   margin: 90px 7rem;
 }
 
+.section_header{
+  font-size: 36px;
+  font-family: var(--font-family_2);
+  margin: 4rem 0;
+}
 @media (max-width: 600px) {
   .page-container {
     margin: 90px 2rem;

@@ -12,18 +12,14 @@ import MenuItem from "@mui/material/MenuItem";
 import logo from "./logo.png";
 import "./navBar.css";
 
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 const pages = [
-  {name:"Events",
-  url:"#Events"}, 
-  {name:"Notice",
-  url:"#notice"},
-   {name:"Gallery",
-  url:"gallery"},
-  {name:"Other-churches",
-  url:"#Other-churches"} ,
-  {name:"About Us",
-  url:"about"} 
+  { name: "Events", url: "#events" },
+  { name: "Notice", url: "#notice" },
+  { name: "Gallery", url: "gallery" },
+  { name: "Other-churches", url: "#Other-churches" },
+  { name: "About Us", url: "about" },
+  { name: "Contact Us", url: "contact-us" },
 ];
 
 export const ResponsiveAppBar = () => {
@@ -48,7 +44,7 @@ export const ResponsiveAppBar = () => {
   const handleNavMenu = (page) => {
     // console.log(page);
   };
-  
+
   const [color, setColor] = React.useState(false);
   const changeColor = () => {
     if (window.scrollY >= 80) {

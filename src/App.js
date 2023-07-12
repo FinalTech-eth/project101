@@ -14,6 +14,7 @@ import GalleryImages from "./Pages/Admin/Gallery";
 import SignIn from "./Pages/Admin/Auth/SignIn";
 import RequiredAuth from "./Components/RequiredAuth";
 import AllImages from "./Pages/Admin/Gallery/AllImages";
+import ContactUs from "./Pages/ContactUs";
 import "./App.css";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="gallery" element={<Gallery />} />
             <Route path="event/:id" element={<SingleEventPage />} />
+            <Route path="/contact-us" element={<ContactUs />} />
           </Route>
           <Route path="admin" element={<SignIn />} />
           <Route element={<RequiredAuth />}>

@@ -39,12 +39,12 @@ const expiryTime = currentTime + (24 * 60 * 60 * 1000);
       localStorage.setItem("expiryTime", JSON.stringify(expiryTime));
       navigate('/dashboard')
 
-      toast.success("loged in successfully!");
+      toast.success("logged in successfully!");
       
       setErrorMsg('')
     } catch (error) {
       setErrorMsg(error.response?.data.message)
-      toast.error("Failed to create event.");
+      toast.error("Failed to login.");
       
     } finally {
       

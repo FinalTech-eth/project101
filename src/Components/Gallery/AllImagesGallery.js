@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Gallery } from "react-grid-gallery";
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
+import { Lightbox } from "yet-another-react-lightbox";
 import axios from "../../API/axios";
 
 import lightTexture from "../../Assets/Images/light-texture.jpg";
@@ -22,9 +21,8 @@ export default function AllImagesGallery() {
       const response = await axios.get("/gallery");
       const transformedImages = response.data.items.map((item) => ({
         src: item.image,
-        original: item.image,
-        width: 320,
-        height: 213,
+        thumbnail: item.image,
+        caption: item.caption,
       }));
       setImages(transformedImages);
       setIsLoading(false);
@@ -40,7 +38,7 @@ export default function AllImagesGallery() {
   const prevIndex = (index + images.length - 1) % images.length;
   const prevImage = images[prevIndex] || currentImage;
 
-  const handleClick = (index, item) => setIndex(index);
+  const handleClick = (index) => setIndex(index);
   const handleClose = () => setIndex(-1);
   const handleMovePrev = () => setIndex(prevIndex);
   const handleMoveNext = () => setIndex(nextIndex);
@@ -64,21 +62,22 @@ export default function AllImagesGallery() {
     <div style={containerStyle}>
       <Gallery
         images={images}
-        onClick={handleClick}
+        onClickThumbnail={handleClick}
         enableImageSelection={false}
       />
       {!!currentImage && (
         <Lightbox
-          mainSrc={currentImage.original}
-          imageTitle={currentImage.caption}
-          mainSrcThumbnail={currentImage.src}
-          nextSrc={nextImage.original}
-          nextSrcThumbnail={nextImage.src}
-          prevSrc={prevImage.original}
-          prevSrcThumbnail={prevImage.src}
-          onCloseRequest={handleClose}
-          onMovePrevRequest={handleMovePrev}
-          onMoveNextRequest={handleMoveNext}
+          open={index !== -1}
+          close={handleClose}
+          index={index}
+          slides={images}
+          on={{
+            view: (index) => console.log("View", index),
+            entering: () => console.log("Entering"),
+            entered: () => console.log("Entered"),
+            exiting: () => console.log("Exiting"),
+            exited: () => console.log("Exited"),
+          }}
         />
       )}
     </div>

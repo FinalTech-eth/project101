@@ -1,0 +1,15 @@
+
+
+.col{
+    flex-direction: column;
+}
+.center_center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    
+}
+.dashboard_body_container{
+    margin-top: 90px  ;
+}

@@ -11,10 +11,18 @@ const Home = () => {
       <section className="hero">
         <SwipeableTextMobileStepper />
       </section>
-      <Events />
-      <GalleryLayer />
-      <OtherChurchs />
-      <NoticeBoard />
+      <section id="Events">
+        <Events />
+      </section>
+      <section id="Gallery">
+        <GalleryLayer />
+      </section>
+      <section className="other-churches">
+        <OtherChurchs />
+      </section>
+      <section className="notice">
+        <NoticeBoard />
+      </section>
     </>
   );
 };

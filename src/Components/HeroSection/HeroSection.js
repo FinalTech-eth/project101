@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 
 import topTornEdge from '../../Assets/Images/beige-torn-edge.png'
 
-const HeroSection = ({ url }) => {
+const HeroSection = ({ url, title }) => {
 
     const heroContainerStyle = {
         position: 'relative',
@@ -37,11 +37,10 @@ const HeroSection = ({ url }) => {
         <div>
             <div style={heroContainerStyle}>
                 <div style={heroTextStyle}>
-                    <Typography variant="h4" component="h1">
-                        Welcome to Our Church
+                    <Typography variant="h4" component="h1" sx={{fontSize: '56px', fontWeight: '900'}}>
+                       {title}
                     </Typography>
                     <Typography variant="subtitle1">
-                        A place of love, faith, and community
                     </Typography>
                 </div>
             </div>

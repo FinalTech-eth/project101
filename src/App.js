@@ -1,32 +1,58 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Pages/Index';
-import About from './Pages/About';
-import Gallery from './Pages/Gallery';
-import Error from './Pages/Error';
-import SingleEventPage from './Pages/Event/SingleEvent';
-import ClientSharedLayout from './Layers/SharedLayouts/ClientSharedLayout';
-import AdminSharedLayout from './Layers/SharedLayouts/AdminSharedLayout';
-import Dashboard from './Pages/Admin/Dashboard';
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./Pages/Index";
+import About from "./Pages/About";
+import Gallery from "./Pages/Gallery";
+import Error from "./Pages/Error";
+import SingleEventPage from "./Pages/Event/SingleEvent";
+import ClientSharedLayout from "./Layers/SharedLayouts/ClientSharedLayout";
+import AdminSharedLayout from "./Layers/SharedLayouts/AdminSharedLayout";
+import Dashboard from "./Pages/Admin/Dashboard";
+import AddEvent from "./Pages/Admin/AddEvent";
+import AdminSideBar from "./Components/Admin/SideBar";
+import AllEvents from "./Pages/Admin/AllEvents";
+import BooksAndArticlesPage from "./Pages/BooksAndArticlesPage";
+import GalleryImages from "./Pages/Admin/Gallery";
+import SignIn from "./Pages/Admin/Auth/SignIn";
+import RequiredAuth from "./Components/RequiredAuth";
+import AllImages from "./Pages/Admin/Gallery/AllImages";
+import AdminNoticePage from "./Pages/Admin/AdminNoticePage";
+import "./App.css";
 
 function App() {
-  return <>
-    <Router>
-      <Routes>
-        <Route path='/' element={<ClientSharedLayout />}>
-          <Route index element={<Home />} />
-          <Route path='about' element={<About />} />
-          <Route path='gallery' element={<Gallery />} />
-          <Route path='event' element={<SingleEventPage />} />
-        </Route>
-        <Route path='/dashboard' element={<AdminSharedLayout />} >
-          <Route index element={<Dashboard />} />
-        </Route>
+  return (
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<ClientSharedLayout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="gallery" element={<Gallery />} />
+            <Route path="event/:id" element={<SingleEventPage />} />
+            <Route
+              path="books-and-articles"
+              element={<BooksAndArticlesPage />}
+            />
+            {/* <Route
+              path="books-and-articles/:slug"
+              element={<SingleBooksAndArticlesPage />}
+            /> */}
+          </Route>
+          <Route path="admin" element={<SignIn />} />
+          <Route>
+            <Route path="/dashboard" element={<AdminSideBar />}>
+              <Route index element={<Dashboard />} />
+              <Route path="add-event" element={<AddEvent />} />
+              <Route path="events" element={<AllEvents />} />
+              <Route path="gallery" element={<AllImages />} />
+              <Route path="notice" element={<AdminNoticePage />} />
+            </Route>
+          </Route>
 
-        <Route path="*" element={<Error />} />
-      </Routes>
-    </Router>
-  </>
+          <Route path="*" element={<Error />} />
+        </Routes>
+      </Router>
+    </>
+  );
 }
 
 export default App;

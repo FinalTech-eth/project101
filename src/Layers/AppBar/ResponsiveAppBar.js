@@ -7,18 +7,28 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "./logo.png";
 import "./navBar.css";
-const pages = ["Events", "Category", "Gallery", "Other-churches", "About Us"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
+import { useNavigate } from "react-router-dom";
+const pages = [
+  { name: "Events", url: "#events" },
+  { name: "Notice", url: "#notice" },
+  { name: "Gallery", url: "gallery" },
+  {
+    name: "books and articles",
+    url: "books-and-articles",
+  },
+  { name: "Other-churches", url: "#Other-churches" },
+  { name: "About Us", url: "about" },
+];
 
 export const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -34,6 +44,10 @@ export const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleNavMenu = (page) => {
+    // console.log(page);
+  };
+
   const [color, setColor] = React.useState(false);
   const changeColor = () => {
     if (window.scrollY >= 80) {
@@ -108,8 +122,13 @@ export const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem
+                  key={page.url}
+                  onClick={() => {
+                    navigate(`/${page.url}`);
+                  }}
+                >
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -135,16 +154,18 @@ export const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                key={page.url}
+                onClick={() => {
+                  navigate(`/${page.url}`);
+                }}
+                sx={{ my: 3, color: "white", display: "block" }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -172,7 +193,7 @@ export const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> */}
         </Toolbar>
       </Container>
     </AppBar>

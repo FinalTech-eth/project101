@@ -25,7 +25,7 @@
 
 .notice-message-container {
   background-color: #f8f8f8;
-  height: 100%;
+  height: max-content;
   width: 75%;
   float: right;
   display: flex;

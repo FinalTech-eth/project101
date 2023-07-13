@@ -1,71 +1,113 @@
-import React, { useState } from 'react';
-import { Box, Tab, Tabs, Grid, Typography, Card, CardMedia, CardContent } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import React, { useState, useEffect } from "react";
+import { Box, Select, MenuItem, Grid, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-import MediaCard from '../Events/Card';
-import img1 from '../../Assets/Images/download (2).jpg';
-import img2 from '../../Assets/Images/download.jpg';
+import MediaCard from "../Events/Card";
+import axios from "../../API/axios";
+import Loading from "../Loading";
+import EventCategories from "../../Enums/EventCategory";
 
-const eventsData = [
-  { id: 4, category: 'Category A', title: 'Event 2 lkd lasien c lser', date: 'November 12 2023', imageUrl: img2 },
-  { id: 5, category: 'Category A', title: 'Event 2', date: 'November 12 2023', imageUrl: img1 },
-  { id: 6, category: 'Category A', title: 'Event 2', date: 'November 12 2023', imageUrl: img2 },
-  { id: 7, category: 'Category B', title: 'Event 3', date: 'November 12 2023', imageUrl: img1 },
-  { id: 8, category: 'Category B', title: 'Event 3', date: 'November 12 2023', imageUrl: img2 },
-  { id: 9, category: 'Category B', title: 'Event 3', date: 'November 12 2023', imageUrl: img1 },
-];
-
-
-const HeaderContainer = styled('div')(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '2rem',
-  marginBottom: '3rem',
-  fontFamily: 'var(--font-family_2)',
-  // color: 'var(--primary-clr)',
-}))
+const HeaderContainer = styled("div")(() => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: "2rem",
+  marginBottom: "3rem",
+  fontFamily: "var(--font-family_2)",
+}));
 
 const EventSection = () => {
-  const [selectedTab, setSelectedTab] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(EventCategories.ALL);
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleTabChange = (event, newValue) => {
-    setSelectedTab(newValue);
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+  const fetchEvents = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get("/event");
+      const sortedEvents = response.data.items.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setEvents(sortedEvents);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
-  const filteredEvents = selectedTab === 'All' ? eventsData : eventsData.filter(event => event.category === selectedTab);
+  const currentDate = new Date();
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+const filteredEvents = events.filter((event) => {
+  if (selectedCategory === EventCategories.ALL) {
+    return new Date(event.date) >= currentDate;
+  } else {
+    return (
+      event?.category?.includes(selectedCategory) &&
+      new Date(event.date) >= currentDate
+    );
+  }
+});
+
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <Box>
       <HeaderContainer>
-        <Grid container>
-          <Grid item md={6}>
-            <Typography variant="h4" sx={{ marginLeft: '24px' }}>
-              Events
-            </Typography>
-          </Grid>
-
-          <Grid item md={6}>
-            <Tabs value={selectedTab} onChange={handleTabChange} aria-label="Event categories" centered>
-              <Tab value="All" label="All Events" />
-              <Tab value="Category A" label="Category A" />
-              <Tab value="Category B" label="Category B" />
-            </Tabs>
-          </Grid>
-        </Grid>
+        <Typography variant="h4">Events</Typography>
+        <Select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          displayEmpty
+          inputProps={{ "aria-label": "Event categories" }}
+        >
+          <MenuItem value={EventCategories.ALL}>All Events</MenuItem>
+          <MenuItem value={EventCategories.WORSHIP_SERVICES}>
+            Worship Services
+          </MenuItem>
+          <MenuItem value={EventCategories.BIBLE_STUDY}>Bible Study</MenuItem>
+          <MenuItem value={EventCategories.SPECIAL_CELEBRATIONS}>
+            Special Celebrations
+          </MenuItem>
+          <MenuItem value={EventCategories.COMMUNITY_OUTREACH}>
+            Community Outreach
+          </MenuItem>
+          <MenuItem value={EventCategories.YOUTH_AND_CHILDRENS_PROGRAMS}>
+            Youth and Children's Programs
+          </MenuItem>
+        </Select>
       </HeaderContainer>
 
-      <Grid container spacing={2}>
-        {filteredEvents.map(event => (
-          <Grid key={event.id} item xs={12} sm={6} md={4}>
-            <MediaCard url={event.imageUrl} title={event.title} date={event.date} />
-          </Grid>
-        ))}
-      </Grid>
+      {filteredEvents.length === 0 ? (
+        <Typography variant="body1" align="center">
+          No events for this category.
+        </Typography>
+      ) : (
+        <Grid container spacing={2}>
+          {filteredEvents.map((event) => (
+            <Grid key={event.id} item xs={12} sm={6} md={4}>
+              <MediaCard
+                id={event._id}
+                url={event.image}
+                title={event.title}
+                date={event.date}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Box>
   );
 };
 
 export default EventSection;
-
-

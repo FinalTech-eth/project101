@@ -1,0 +1,5 @@
+.notice-img-upload-disabled {
+  opacity: 0.5;
+  cursor: arrow;
+  background: lightgrey;
+}

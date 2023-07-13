@@ -1,68 +1,78 @@
-import React from 'react';
-import { Typography, Container, Grid } from '@mui/material';
-import img from '../../Assets/Images/download.jpg'
-import bgUrl from '../../Assets/Images/beige-texture.jpg'
+import { useState, useEffect } from "react";
+import { Typography, Container, Grid } from "@mui/material";
+import img from "../../Assets/Images/download.jpg";
+import bgUrl from "../../Assets/Images/beige-texture.jpg";
+import axios from "../../API/axios";
+import Loading from "../Loading";
+import { useParams } from "react-router-dom";
+import { format, parseISO, isValid } from "date-fns";
 
-const SingleEvent = () => {
+const SingleEvent = ({ title, description, date, location }) => {
+  const [formattedDate, setFormattedDate] = useState("");
+  const [formattedTime, setFormattedTime] = useState("");
+
+  useEffect(() => {
+    const parsedDate = parseISO(date);
+
+    if (isValid(parsedDate)) {
+      const formattedDateString = format(parsedDate, "MMM d, yyyy");
+      const formattedTimeString = format(parsedDate, "hh:mm a");
+      setFormattedDate(formattedDateString);
+      setFormattedTime(formattedTimeString);
+    } else {
+      setFormattedDate("Invalid Date");
+      setFormattedTime("");
+    }
+  }, [date]);
+
   const containerStyle = {
-    paddingTop: '5rem',
-    paddingBottom: '7rem',
+    paddingTop: "5rem",
+    paddingBottom: "7rem",
     backgroundImage: `url(${bgUrl})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    maxWidth: '100vw',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    maxWidth: "100vw",
   };
 
   const titleStyle = {
-    marginBottom: '2rem',
-    fontWeight: 'bold',
+    marginBottom: "2rem",
+    fontWeight: "bold",
   };
 
   const imageStyle = {
-    width: '100%',
-    height: 'auto',
-    borderRadius: '1rem',
+    width: "100%",
+    height: "auto",
+    borderRadius: "1rem",
   };
 
   const contentStyle = {
-    marginTop: '2rem',
+    marginTop: "2rem",
   };
+
   const eventContent = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
 
   return (
     <Container style={containerStyle}>
-
       <Grid container spacing={4} style={eventContent} alignItems="flex-start">
         <Grid item xs={12} md={6}>
           <Typography variant="h4" style={titleStyle}>
-            Event Title
+            {title}
           </Typography>
           <Typography variant="subtitle1" style={contentStyle}>
-            <strong>Date:</strong> September 30, 2023
+            <strong>Date:</strong> {formattedDate}
           </Typography>
           <Typography variant="subtitle1" style={contentStyle}>
-            <strong>Time:</strong> 7:00 PM - 10:00 PM
+            <strong>Time:</strong> {formattedTime}
           </Typography>
           <Typography variant="subtitle1" style={contentStyle}>
-            <strong>Location:</strong> Church Hall
+            <strong>Location:</strong> {location}
           </Typography>
           <Typography variant="body1" style={contentStyle}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu
-            massa pharetra, vestibulum urna nec, laoreet ante. Quisque vitae
-            fermentum tellus. Nulla dapibus augue ut ligula malesuada finibus.
-            Nullam ac fermentum justo. Sed varius feugiat sem, id auctor magna
-            vestibulum at. Sed maximus, lectus ut dapibus fringilla, mauris
-            mauris maximus urna, a interdum mauris lectus id neque. Nullam nec
-            purus id nisl fringilla laoreet. In vestibulum tempor tortor, sit
-            amet gravida neque gravida non. Donec fringilla, sem vel rutrum
-            sagittis, mi neque bibendum mi, sed tristique ligula nunc in odio.
-            Nulla vestibulum volutpat neque, a consectetur sem fringilla et.
-            Integer suscipit massa eget enim maximus, nec lacinia nulla
-            hendrerit.
+            {description}
           </Typography>
         </Grid>
       </Grid>

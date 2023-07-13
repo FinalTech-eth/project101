@@ -62,7 +62,15 @@ function SwipeableTextMobileStepper() {
       </div>
 
      
-    <Carousel autoPlay infiniteLoop>
+    <Carousel 
+    autoPlay 
+    infiniteLoop 
+    emulateTouch
+    showArrows={false}
+    showStatus={false}
+    stopOnHover={false}
+    swipeable={false}
+    >
     {images.map((step, index) => (
               <div key={step.label}>
                

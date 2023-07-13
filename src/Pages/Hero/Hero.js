@@ -3,15 +3,15 @@ import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
+
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
 import "./hero.css";
 import img1 from "../../Assets/Images/photo_4958761978181037036_y.jpg";
 import img2 from "../../Assets/Images/photo_4958761978181037038_y.jpg";
 import img3 from "../../Assets/Images/photo_4958761978181037043_y.jpg";
 import img4 from "../../Assets/Images/photo_4958761978181037044_y.jpg";
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
   {
@@ -54,7 +54,31 @@ function SwipeableTextMobileStepper() {
   return (
     <Box sx={{ width: "100%", flexGrow: 1 }}>
       <div className="home_hero_container">
-        <Paper
+    
+        <hr className="hLine-1" />
+        <hr className="hLine-2" />
+        <hr className="vLine-1" />
+        <hr className="vLine-2" />
+      </div>
+
+     
+    <Carousel autoPlay infiniteLoop>
+    {images.map((step, index) => (
+              <div key={step.label}>
+               
+                  <Box
+                component="img"
+                sx={{
+                  height: "100vh",
+                  display: "block",
+                  overflow: "hidden",
+                  width: "100vw",
+                  objectFit: "cover",
+                }}
+                src={step.imgPath}
+                alt={step.label}
+              />
+                  <Paper
           square
           elevation={0}
           sx={{
@@ -75,53 +99,25 @@ function SwipeableTextMobileStepper() {
             id="hero_header_2"
             sx={{ textAlign: "left", marginBottom: "2rem" }}
           >
-            {images[activeStep].title}
+            {step.title}
           </Typography>
           <Typography
             variant="h4"
             id="hero_header_1"
             sx={{ textAlign: "left", marginBottom: "1rem" }}
           >
-            {images[activeStep].label}
+            {step.label}
           </Typography>
           <Typography
             sx={{ textAlign: "left", marginBottom: "1rem" }}
             variant="h6"
           >
-            {images[activeStep].article}
+            {step.article}
           </Typography>
         </Paper>
-        <hr className="hLine-1" />
-        <hr className="hLine-2" />
-        <hr className="vLine-1" />
-        <hr className="vLine-2" />
-      </div>
-
-      <AutoPlaySwipeableViews
-        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-        index={activeStep}
-        onChangeIndex={handleStepChange}
-        enableMouseEvents
-      >
-        {images.map((step, index) => (
-          <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: "100vh",
-                  display: "block",
-                  overflow: "hidden",
-                  width: "100vw",
-                  objectFit: "cover",
-                }}
-                src={step.imgPath}
-                alt={step.label}
-              />
-            ) : null}
           </div>
         ))}
-      </AutoPlaySwipeableViews>
+        </Carousel>
     </Box>
   );
 }

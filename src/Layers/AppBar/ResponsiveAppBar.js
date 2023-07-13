@@ -14,12 +14,12 @@ import "./navBar.css";
 
 import { useNavigate } from "react-router-dom";
 const pages = [
-  { name: "Events", url: "#events" },
-  { name: "Notice", url: "#notice" },
-  { name: "Gallery", url: "gallery" },
-  { name: "Other-churches", url: "#Other-churches" },
-  { name: "About Us", url: "about" },
-  { name: "Contact Us", url: "contact-us" },
+  { name: "Events", url: "#events", id: "Events" },
+  { name: "Notice", url: "#notice", id: "Notice" },
+  { name: "Gallery", url: "gallery", id: "Gallery" },
+  { name: "Other-churches", url: "#Other-churches", id: "Other-churches" },
+  { name: "About Us", url: "about", hasOwnPage: true },
+  { name: "Contact Us", url: "contact-us", hasOwnPage: true },
 ];
 
 export const ResponsiveAppBar = () => {
@@ -54,6 +54,18 @@ export const ResponsiveAppBar = () => {
     }
   };
   window.addEventListener("scroll", changeColor);
+  const handleClick = (page) => {
+    if (page.hasOwnPage) {
+      navigate(page.url);
+    } else {
+      const section = document.getElementById(page.id);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate({ pathname: "/", search: `?section=${page.id}` });
+      }
+    }
+  };
   return (
     <AppBar
       position="fixed"
@@ -119,12 +131,7 @@ export const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem
-                  key={page.url}
-                  onClick={() => {
-                    navigate(`/${page.url}`);
-                  }}
-                >
+                <MenuItem key={page.id} onClick={() => handleClick(page)}>
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -151,10 +158,8 @@ export const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page.url}
-                onClick={() => {
-                  navigate(`/${page.url}`);
-                }}
+                key={page.id}
+                onClick={() => handleClick(page)}
                 sx={{ my: 3, color: "white", display: "block" }}
               >
                 {page.name}

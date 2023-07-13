@@ -1,12 +1,15 @@
-import React from 'react'
-import AboutSection from '../Components/About/AboutSection'
+import React from "react";
+import AboutSection from "../Components/About/AboutSection";
 
 const About = () => {
+  React.useEffect(() => {
+    document.getElementById("about-top").scrollIntoView({ behavior: "smooth" });
+  }, []);
   return (
-    <div>
-      <AboutSection/>
+    <div id="about-top">
+      <AboutSection />
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;

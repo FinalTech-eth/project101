@@ -60,10 +60,12 @@ body {
   font-family: var(--font-family_2);
   margin: 4rem 0;
 }
+
 @media (max-width: 600px) {
   .page-container {
     margin: 90px 2rem;
   }
+
 }
 
 @media (min-width: 1200px) {

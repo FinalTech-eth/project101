@@ -1,15 +1,12 @@
-import { useState, useEffect } from "react";
-import { Gallery } from "react-grid-gallery";
-import Lightbox from "react-image-lightbox";
-import "react-image-lightbox/style.css";
+import React, { useState, useEffect } from "react";
 import axios from "../../API/axios";
+import ModalImage from "react-modal-image";
 
 import lightTexture from "../../Assets/Images/light-texture.jpg";
 import "./gallery.css";
 import Loading from "../Loading";
 
 export default function AllImagesGallery() {
-  const [index, setIndex] = useState(-1);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,10 +18,9 @@ export default function AllImagesGallery() {
     try {
       const response = await axios.get("/gallery");
       const transformedImages = response.data.items.map((item) => ({
-        src: item.image,
         original: item.image,
-        width: 320,
-        height: 213,
+        thumbnail: item.image,
+        caption: item.caption,
       }));
       setImages(transformedImages);
       setIsLoading(false);
@@ -34,22 +30,7 @@ export default function AllImagesGallery() {
     }
   };
 
-  const currentImage = images[index];
-  const nextIndex = (index + 1) % images.length;
-  const nextImage = images[nextIndex] || currentImage;
-  const prevIndex = (index + images.length - 1) % images.length;
-  const prevImage = images[prevIndex] || currentImage;
-
-  const handleClick = (index, item) => setIndex(index);
-  const handleClose = () => setIndex(-1);
-  const handleMovePrev = () => setIndex(prevIndex);
-  const handleMoveNext = () => setIndex(nextIndex);
-
   const containerStyle = {
-    paddingTop: "5rem",
-    paddingBottom: "5rem",
-    paddingRight: "7rem",
-    paddingLeft: "7rem",
     backgroundImage: `url(${lightTexture})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -62,25 +43,19 @@ export default function AllImagesGallery() {
 
   return (
     <div style={containerStyle}>
-      <Gallery
-        images={images}
-        onClick={handleClick}
-        enableImageSelection={false}
-      />
-      {!!currentImage && (
-        <Lightbox
-          mainSrc={currentImage.original}
-          imageTitle={currentImage.caption}
-          mainSrcThumbnail={currentImage.src}
-          nextSrc={nextImage.original}
-          nextSrcThumbnail={nextImage.src}
-          prevSrc={prevImage.original}
-          prevSrcThumbnail={prevImage.src}
-          onCloseRequest={handleClose}
-          onMovePrevRequest={handleMovePrev}
-          onMoveNextRequest={handleMoveNext}
-        />
-      )}
+      <div className="gallery-container">
+        {images.map((image, index) => (
+          <ModalImage
+            key={index}
+            small={image.thumbnail}
+            large={image.original}
+            alt={image.caption}
+            showPrevButton={true}
+            showNextButton={true}
+            className="fullscreen-image"
+          />
+        ))}
+      </div>
     </div>
   );
 }

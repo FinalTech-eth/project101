@@ -34,9 +34,14 @@ const ContactUs = () => {
     height: "50px",
   };
 
+  React.useEffect(() => {
+    document
+      .getElementById("contact-us-hero")
+      .scrollIntoView({ behavior: "smooth" });
+  }, []);
   return (
     <>
-      <div style={heroContainerStyle}>
+      <div style={heroContainerStyle} id="contact-us-hero">
         <div style={heroTextStyle}>
           <Typography variant="h4" component="h1">
             Welcome to Our Church

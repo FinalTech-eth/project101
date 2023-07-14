@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Box, Grid } from "@mui/material";
 import img1 from "../../Assets/Images/download (2).jpg";
-import img2 from "../../Assets/Images/download.jpg";
+import img2 from "../../Assets/Images/photo_4958761978181037040_y.jpg";
 
 const AboutSection = () => {
   const containerStyle = {
@@ -9,7 +9,7 @@ const AboutSection = () => {
   };
   const heroContainerStyle = {
     position: "relative",
-    height: "350px",
+    height: "70vh",
     backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(${img2})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -47,19 +47,19 @@ const AboutSection = () => {
     <Box m={0}>
       <div style={heroContainerStyle}>
         <div style={heroTextStyle}>
-          <Typography variant="h5" component="h1">
-            Welcome to Our Church
+          <Typography variant="h3" component="h1">
+            Well Come to Apostolic church of Canada/Ottawa
           </Typography>
-          <Typography variant="subtitle1">
+          <Typography variant="h4" sx={{ margin: "2rem" }}>
             A place of love, faith, and community
           </Typography>
         </div>
       </div>
 
       <div className="page-container">
-        <Typography variant="h5" align="center" style={titleStyle}>
+        {/* <Typography variant="h5" align="center" style={titleStyle}>
           About Us
-        </Typography>
+        </Typography> */}
 
         <Grid container spacing={4} alignItems="center" style={containerStyle}>
           <Grid item xs={12} md={2}>

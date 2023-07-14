@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 const pages = [
   { name: "Events", url: "#events", id: "Events" },
   { name: "Notice", url: "#notice", id: "Notice" },
-  { name: "Gallery", url: "gallery", id: "Gallery" },
+  { name: "Gallery", url: "gallery", hasOwnPage: true },
   { name: "Other-churches", url: "#Other-churches", id: "Other-churches" },
   { name: "About Us", url: "about", hasOwnPage: true },
   { name: "Contact Us", url: "contact-us", hasOwnPage: true },

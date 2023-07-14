@@ -1,13 +1,13 @@
 import React from "react";
 import Contact from "../Components/contact/Contact";
-import bgImg from "../Assets/Images/download (2).jpg";
+import bgImg from "../Assets/Images/4934192.webp";
 import topTornEdge from "../Assets/Images/beige-torn-edge.png";
 import { Typography } from "@mui/material";
 
 const ContactUs = () => {
   const heroContainerStyle = {
     position: "relative",
-    height: "350px",
+    height: "50vh",
     backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(${bgImg})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -43,12 +43,7 @@ const ContactUs = () => {
     <>
       <div style={heroContainerStyle} id="contact-us-hero">
         <div style={heroTextStyle}>
-          <Typography variant="h4" component="h1">
-            Welcome to Our Church
-          </Typography>
-          <Typography variant="subtitle1">
-            A place of love, faith, and community
-          </Typography>
+          <Typography variant="h2">Contact Us</Typography>
         </div>
       </div>
       <div style={edgeImageStyle}></div>

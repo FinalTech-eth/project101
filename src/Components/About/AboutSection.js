@@ -1,7 +1,8 @@
 import React from "react";
 import { Typography, Box, Grid } from "@mui/material";
 import img1 from "../../Assets/Images/download (2).jpg";
-import img2 from "../../Assets/Images/photo_4958761978181037040_y.jpg";
+import img2 from "../../Assets/Images/abstract_banner_with_gradient_circle_and_halftone_dots_design_2103.webp";
+// import img2 from "../../Assets/Images/photo_4958761978181037040_y.jpg";
 
 const AboutSection = () => {
   const containerStyle = {
@@ -47,11 +48,11 @@ const AboutSection = () => {
     <Box m={0}>
       <div style={heroContainerStyle}>
         <div style={heroTextStyle}>
-          <Typography variant="h3" component="h1">
+          <Typography variant="h4" component="h1">
             Well Come to Apostolic church of Canada/Ottawa
           </Typography>
-          <Typography variant="h4" sx={{ margin: "2rem" }}>
-            A place of love, faith, and community
+          <Typography variant="h2" sx={{ margin: "2rem" }}>
+            What We Believe
           </Typography>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import AllImagesGallery from "../Components/Gallery/AllImagesGallery";
 import Header from "../Components/Header/Header";
-import img2 from "../Assets/Images/3d-hyperspace-background-with-warp-tunnel-effect.webp";
+import img2 from "../Assets/Images/photo_5877545827432512349_w.jpg";
 
 import { Typography } from "@mui/material";
 import topTornEdge from "../Assets/Images/beige-torn-edge.png";

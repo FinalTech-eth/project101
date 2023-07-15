@@ -60,12 +60,19 @@ const EventSection = () => {
     return <Loading />;
   }
   if (events?.length === 0) {
-    return
+    return;
   }
   return (
     <div id="events">
       <HeaderContainer>
-        <Typography variant="h4">Events</Typography>
+        <Typography
+          sx={{
+            fontFamily: "'Crimson Text', serif",
+          }}
+          variant="h4"
+        >
+          Events
+        </Typography>
         <Select
           value={selectedCategory}
           onChange={handleCategoryChange}

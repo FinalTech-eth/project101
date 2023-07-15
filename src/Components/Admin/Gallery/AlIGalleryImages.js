@@ -8,7 +8,7 @@ import {
   IconButton,
   Modal,
   Backdrop,
-  Fade, 
+  Fade,
   CircularProgress,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -17,8 +17,6 @@ import Loading from "../../Loading";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// toast.configure();
-
 const AlIGalleryImages = () => {
   const [images, setImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +24,8 @@ const AlIGalleryImages = () => {
   const [openModal, setOpenModal] = useState(false);
   const [refetch, setRefetch] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  const token = admin.token;
 
   useEffect(() => {
     fetchImages();
@@ -45,9 +45,15 @@ const AlIGalleryImages = () => {
 
   const handleDeleteImage = async (id) => {
     try {
-      await axios.delete(`/gallery/delete/${id}`);
+      setIsLoading(true);
+      await axios.delete(`/gallery/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       // Remove the deleted image from the state
       setImages((prevImages) => prevImages.filter((image) => image._id !== id));
+      setIsLoading(false);
       toast.success("Image deleted successfully.");
     } catch (error) {
       console.error(error);
@@ -82,7 +88,10 @@ const AlIGalleryImages = () => {
 
   return (
     <div style={{ marginTop: "2rem" }}>
-      <div className="center_center" style={{ padding: "2rem", justifyContent: 'space-between' }}>
+      <div
+        className="center_center"
+        style={{ padding: "2rem", justifyContent: "space-between" }}
+      >
         <h2>All Images</h2>
         <Button variant="contained" color="primary" onClick={handleOpenModal}>
           Upload

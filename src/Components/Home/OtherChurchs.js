@@ -2,10 +2,10 @@ import React from "react";
 import { Box, Typography, Card, CardContent, CardMedia } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import img1 from "../../Assets/Images/photo_5823502271126815195_y.jpg";
-import img2 from "../../Assets/Images/pexels-photo-1766215.jpeg";
-import img3 from "../../Assets/Images/pexels-photo-1202723.jpeg";
-import img4 from "../../Assets/Images/pexels-photo-11514758.jpeg";
-import img5 from "../../Assets/Images/pexels-photo-13913336.jpeg";
+import img2 from "../../Assets/Images/photo_5877545827432512347_x.jpg";
+import img3 from "../../Assets/Images/photo_5877545827432512346_x.jpg";
+import img4 from "../../Assets/Images/photo_5877545827432512348_x.jpg";
+import img5 from "../../Assets/Images/photo_5877545827432512345_x.jpg";
 import bgimage from "../../Assets/Images/photo_5823502271126815190_y.jpg";
 const churchData = [
   {

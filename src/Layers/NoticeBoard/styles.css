@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;700&family=Gelasio:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
 .notice-board-container {
   position: relative;
   min-height: 300px;
@@ -5,11 +7,13 @@
   align-items: center;
   margin-bottom: 6rem;
   margin-top: 2rem;
+  display: flex;
+  align-items: center;
 }
 
 .notice-board-img-container {
   position: absolute;
-  height: 80%;
+  height: 90%;
   width: 400px;
   left: 0;
   top: 0;
@@ -25,7 +29,7 @@
 
 .notice-message-container {
   background-color: #f8f8f8;
-  height: 100%;
+  height: max-content;
   width: 75%;
   float: right;
   display: flex;
@@ -43,13 +47,48 @@
 }
 
 .notice-message {
-  width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  text-align: center;
+  width: 80%;
 }
 .notice-message h1 {
+  font-family: var(--font-family_1);
+}
+.notice-message p {
+  margin: 0;
+  font-size: 18px;
   font-family: var(--font-family_2);
+}
+
+.notice-message p i {
+  font-family: var(--font-family_2);
+}
+
+.blockquote {
+  width: 400px;
+  margin: auto;
+  margin-top: 0.5rem;
+  text-align: left;
+  text-transform: capitalize;
+}
+.blockquote::before {
+  content: "\201c";
+  color: #000;
+  margin: 0;
+  height: 30px;
+  font-size: 3rem;
+  margin-left: -20px;
+  display: block;
+}
+.notice-message .blockquote-text {
+  font-family: "Gelasio", serif;
+  font-style: italic;
+  font-size: 0.7em;
+}
+.notice-message .lockquote-text::after {
+  content: "\201d";
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .clear {

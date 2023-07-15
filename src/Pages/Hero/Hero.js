@@ -72,6 +72,7 @@ function SwipeableTextMobileStepper() {
         {images.map((step, index) => (
           <div key={step.label}>
             <Box
+              id="home_carosel_container"
               component="img"
               sx={{
                 height: "100vh",

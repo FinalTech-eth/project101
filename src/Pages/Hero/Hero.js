@@ -67,6 +67,7 @@ function SwipeableTextMobileStepper() {
         showStatus={false}
         stopOnHover={false}
         swipeable={false}
+        interval={6000}
       >
         {images.map((step, index) => (
           <div key={step.label}>

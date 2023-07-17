@@ -1,16 +1,14 @@
 import React from "react";
-import AllImagesGallery from "../Components/Gallery/AllImagesGallery";
-import Header from "../Components/Header/Header";
-import img2 from "../Assets/Images/photo_5877545827432512349_w.jpg";
-
-import { Typography } from "@mui/material";
+import Contact from "../Components/contact/Contact";
+import bgImg from "../Assets/Images/photo_5877545827432512353_w.jpg";
 import topTornEdge from "../Assets/Images/beige-torn-edge.png";
+import { Typography } from "@mui/material";
 
-const Gallery = () => {
+const ContactUs = () => {
   const heroContainerStyle = {
     position: "relative",
-    height: "60vh",
-    backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(${img2})`,
+    height: "50vh",
+    backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url(${bgImg})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     // marginBottom: '2rem',
@@ -36,20 +34,23 @@ const Gallery = () => {
     height: "50px",
   };
 
+  React.useEffect(() => {
+    document
+      .getElementById("contact-us-hero")
+      .scrollIntoView({ behavior: "smooth" });
+  }, []);
   return (
     <>
-      <div className="">
-        <div style={heroContainerStyle}>
-          <div style={heroTextStyle}>
-            <Typography variant="h3">Gallery</Typography>
-          </div>
+      <div style={heroContainerStyle} id="contact-us-hero">
+        <div style={heroTextStyle}>
+          <Typography variant="h2">Contact Us</Typography>
         </div>
-        <div style={edgeImageStyle}></div>
-        {/* <Header title='Gallery' subtitle='all images' /> */}
-        <AllImagesGallery />
       </div>
+      <div style={edgeImageStyle}></div>
+
+      <Contact />
     </>
   );
 };
 
-export default Gallery;
+export default ContactUs;

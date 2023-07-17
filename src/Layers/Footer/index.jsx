@@ -4,27 +4,66 @@ import logo from "../../Assets/Images/logo.png";
 import "./styles.css";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
-import topTornEdge from '../../Assets/Images/top-torn-edge.png'
+import topTornEdge from "../../Assets/Images/top-torn-edge.png";
+import { useNavigate } from "react-router-dom";
 
-const pages = ["Events", "Category", "Gallery", "Other-churches", "About Us"];
+const pages = [
+  {
+    id: "Events",
+    name: "Events",
+  },
+  {
+    id: "Gallery",
+    name: "Gallery",
+  },
+  {
+    id: "Other-churches",
+    name: "Other Churches",
+  },
+  {
+    id: "Notice",
+    name: "Notice",
+  },
+  {
+    id: "About-us",
+    name: "About Us",
+    hasOwnPage: true,
+    pageURL: "/about",
+  },
+  {
+    id: "Contact-us",
+    name: "Contact Us",
+    hasOwnPage: true,
+    pageURL: "/contact-us",
+  },
+];
 
 const Footer = () => {
-  const handleClick = () => {
-    console.log("Calling", document.getElementById("segni"));
-    document.getElementById("segni").scrollIntoView({ behavior: "smooth" });
+  const navigate = useNavigate();
+  const handleClick = (page) => {
+    if (page.hasOwnPage) {
+      navigate(page.pageURL);
+    } else {
+      const section = document.getElementById(page.id);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate({ pathname: "/", search: `?section=${page.id}` });
+      }
+    }
   };
   const edgeImageStyle = {
     backgroundImage: `url(${topTornEdge})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    marginBottom: '-50px',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    marginBottom: "-50px",
     zIndex: 100,
-    height: '50px',
-    position: 'relative'
-  }
+    height: "50px",
+    position: "relative",
+  };
   return (
     <>
-      <div style={edgeImageStyle} ></div>
+      <div style={edgeImageStyle}></div>
 
       <Box className="footer-container">
         <Box
@@ -45,18 +84,19 @@ const Footer = () => {
             sx={{ width: "60%", placeContent: "center" }}
           >
             {pages.map((page) => (
-              <Grid item xs={12} md={6} lg={2} key={page}>
+              <Grid item xs={12} md={6} lg={2} key={page.id}>
                 <Typography
                   textAlign="center"
-                  onClick={handleClick}
+                  onClick={() => handleClick(page)}
                   sx={{
                     fontSize: "0.75562rem",
                     color: "#fff",
                     textTransform: "uppercase",
                     fontWeight: 600,
+                    cursor: "pointer",
                   }}
                 >
-                  {page}
+                  {page.name}
                 </Typography>
               </Grid>
             ))}
@@ -79,7 +119,9 @@ const Footer = () => {
               color: "#fff",
             }}
           >
-            Call us 24\7 800.567.1234
+            Call us (819)712-1100
+            <br />
+            Pastor Eyob Melese
           </Typography>
         </Box>
         <Divider
@@ -95,10 +137,13 @@ const Footer = () => {
         />
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="subtitle1" sx={{ color: "#fff" }}>
-            355 S Grand Ave, Los Angeles, CA 90071
+            1196 Wellington Street, K1Y 2Z5
           </Typography>
-          <Typography variant="subtitle2" sx={{ color: "rgba(255,255,255,0.3)" }}>
-            © 2023 Calm. All rights reserved. Privacy Policy
+          <Typography
+            variant="subtitle2"
+            sx={{ color: "rgba(255,255,255,0.3)" }}
+          >
+            {/* © 2023 Calm. All rights reserved. Privacy Policy */}
           </Typography>
         </Box>
       </Box>

@@ -37,6 +37,7 @@ const SingleEvent = ({ title, description, date, location }) => {
   const titleStyle = {
     marginBottom: "2rem",
     fontWeight: "bold",
+    fontFamily: "'Crimson Text', serif",
   };
 
   const imageStyle = {
@@ -47,6 +48,7 @@ const SingleEvent = ({ title, description, date, location }) => {
 
   const contentStyle = {
     marginTop: "2rem",
+    fontFamily: "'Lato', Arial, sans-serif",
   };
 
   const eventContent = {

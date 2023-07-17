@@ -7,7 +7,7 @@ const GalleryLayer = () => {
   return (
     <>
       <Box>
-        <h3 className="center_center">Gallery</h3>
+        <h3 className="center_center section_header">Gallery</h3>
         <GalleryComponent />
         <Box className="center_center">
           <Button

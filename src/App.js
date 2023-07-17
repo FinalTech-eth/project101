@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Index";
 import About from "./Pages/About";
 import Gallery from "./Pages/Gallery";
-import Error from "./Pages/Error";
+import NotFoundPage from "./Pages/Error";
 import SingleEventPage from "./Pages/Event/SingleEvent";
 import ClientSharedLayout from "./Layers/SharedLayouts/ClientSharedLayout";
 import AdminSharedLayout from "./Layers/SharedLayouts/AdminSharedLayout";
@@ -16,6 +16,7 @@ import SignIn from "./Pages/Admin/Auth/SignIn";
 import RequiredAuth from "./Components/RequiredAuth";
 import AllImages from "./Pages/Admin/Gallery/AllImages";
 import AdminNoticePage from "./Pages/Admin/AdminNoticePage";
+import ContactUs from "./Pages/ContactUs";
 import "./App.css";
 
 function App() {
@@ -36,9 +37,10 @@ function App() {
               path="books-and-articles/:slug"
               element={<SingleBooksAndArticlesPage />}
             /> */}
+            <Route path="/contact-us" element={<ContactUs />} />
           </Route>
           <Route path="admin" element={<SignIn />} />
-          <Route>
+          <Route element={<RequiredAuth />}>
             <Route path="/dashboard" element={<AdminSideBar />}>
               <Route index element={<Dashboard />} />
               <Route path="add-event" element={<AddEvent />} />
@@ -48,7 +50,7 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="*" element={<Error />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </>

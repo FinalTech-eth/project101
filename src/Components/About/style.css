@@ -1,0 +1,8 @@
+@media (max-width: 768px) {
+  .hero_header_txt_h1 {
+    font-size: 25px;
+  }
+  .hero_header_txt_h2 {
+    font-size: 35px;
+  }
+}

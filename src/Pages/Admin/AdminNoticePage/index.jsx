@@ -24,11 +24,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import shortid from "shortid";
 import { ToastContainer, toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import parser from "html-react-parser";
 import "./styles.css";
+
 function Index() {
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -91,7 +94,7 @@ function Index() {
       });
 
       // Reset form fields and selected image
-      reset();
+      // reset();
       setSelectedImage(null);
       // onCloseModal();
       toast.success("Event created successfully!");
@@ -105,14 +108,15 @@ function Index() {
       setIsSubmitting(false);
     }
   };
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors },
+  //   reset,
+  // } = useForm();
 
   const [selectedImage, setSelectedImage] = useState(null);
+  const [description, setDescription] = useState("");
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setSelectedImage(file);
@@ -158,8 +162,8 @@ function Index() {
         aria-labelledby="responsive-dialog-title"
       >
         <form
-          onSubmit={handleSubmit(handleFormSubmit)}
-          encType="multipart/form-data"
+        // onSubmit={handleSubmit(handleFormSubmit)}
+        // encType="multipart/form-data"
         >
           <DialogContent>
             <DialogContentText>Create a New Notice</DialogContentText>
@@ -171,7 +175,7 @@ function Index() {
                 width: "100%",
               }}
             >
-              <FormControl sx={{ mt: 2 }}>
+              {/* <FormControl sx={{ mt: 2 }}>
                 <TextField
                   id="notice-title"
                   label="Title"
@@ -180,20 +184,29 @@ function Index() {
                   error={!!errors.title}
                   helperText={errors.title && "Title is required"}
                 ></TextField>
-              </FormControl>
+              </FormControl> */}
               <FormControl sx={{ mt: 2 }}>
-                <TextField
-                  id="notice-detail"
-                  multiline
-                  label="Description"
-                  rows={2}
-                  maxRows={4}
-                  {...register("description", { required: true })}
-                  error={!!errors.description}
-                  helperText={errors.description && "Description is required"}
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={description}
+                  onReady={(editor) => {
+                    // You can store the "editor" and use when it is needed.
+                    console.log("Editor is ready to use!", editor);
+                  }}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    setDescription(data);
+                    console.log("The data : ", { event, editor, data });
+                  }}
+                  onBlur={(event, editor) => {
+                    console.log("Blur.", editor);
+                  }}
+                  onFocus={(event, editor) => {
+                    console.log("Focus.", editor);
+                  }}
                 />
               </FormControl>
-              <Box sx={{ mt: 2 }}>
+              {/* <Box sx={{ mt: 2 }}>
                 <label htmlFor="image-upload">
                   <input
                     id="image-upload"
@@ -206,8 +219,8 @@ function Index() {
                   <Button variant="contained" component="span">
                     Upload Image
                   </Button>
-                </label>
-                {selectedImage && (
+                </label> */}
+              {/* {selectedImage && (
                   <Box mt={2}>
                     <Typography variant="subtitle1">
                       Selected Image Preview:
@@ -218,8 +231,8 @@ function Index() {
                       style={{ height: "200px" }}
                     />
                   </Box>
-                )}
-              </Box>
+                )} */}
+              {/* </Box> */}
             </Box>
           </DialogContent>
           <DialogActions sx={{ padding: "20px 24px" }}>

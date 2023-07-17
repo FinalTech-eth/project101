@@ -45,26 +45,34 @@ const EventSection = () => {
     setSelectedCategory(event.target.value);
   };
 
-const filteredEvents = events.filter((event) => {
-  if (selectedCategory === EventCategories.ALL) {
-    return new Date(event.date) >= currentDate;
-  } else {
-    return (
-      event?.category?.includes(selectedCategory) &&
-      new Date(event.date) >= currentDate
-    );
-  }
-});
-
+  const filteredEvents = events.filter((event) => {
+    if (selectedCategory === EventCategories.ALL) {
+      return new Date(event.date) >= currentDate;
+    } else {
+      return (
+        event?.category?.includes(selectedCategory) &&
+        new Date(event.date) >= currentDate
+      );
+    }
+  });
 
   if (isLoading) {
     return <Loading />;
   }
-
+  if (events?.length === 0) {
+    return;
+  }
   return (
-    <Box>
+    <div id="events">
       <HeaderContainer>
-        <Typography variant="h4">Events</Typography>
+        <Typography
+          sx={{
+            fontFamily: "'Crimson Text', serif",
+          }}
+          variant="h4"
+        >
+          Events
+        </Typography>
         <Select
           value={selectedCategory}
           onChange={handleCategoryChange}
@@ -106,7 +114,7 @@ const filteredEvents = events.filter((event) => {
           ))}
         </Grid>
       )}
-    </Box>
+    </div>
   );
 };
 

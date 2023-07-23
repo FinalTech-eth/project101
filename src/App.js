@@ -14,6 +14,7 @@ import GalleryImages from "./Pages/Admin/Gallery";
 import SignIn from "./Pages/Admin/Auth/SignIn";
 import RequiredAuth from "./Components/RequiredAuth";
 import AllImages from "./Pages/Admin/Gallery/AllImages";
+import AdminNoticePage from "./Pages/Admin/AdminNoticePage";
 import ContactUs from "./Pages/ContactUs";
 import "./App.css";
 
@@ -36,6 +37,7 @@ function App() {
               <Route path="add-event" element={<AddEvent />} />
               <Route path="events" element={<AllEvents />} />
               <Route path="gallery" element={<AllImages />} />
+              <Route path="notice" element={<AdminNoticePage />} />
             </Route>
           </Route>
 

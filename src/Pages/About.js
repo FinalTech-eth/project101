@@ -11,6 +11,7 @@ const About = () => {
   const [description, setDescription] = useState("");
   return (
     <div id="about-top">
+      <AboutSection />
       <CKEditor
         editor={ClassicEditor}
         data={description}
@@ -30,7 +31,6 @@ const About = () => {
           console.log("Focus.", editor);
         }}
       />
-      <AboutSection />
     </div>
   );
 };

@@ -3,7 +3,7 @@ import ArticlesCard from "../../Components/BooksAndArticles/ArticlesCard";
 import BooksCard from "../../Components/BooksAndArticles/BooksCard";
 import { Box, Select, MenuItem, Typography, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import React, { useState } from "react";
 function BooksAndArticlesPage() {
   const temp = [1, 2, 3, 4, 5];
   const [category, setCategory] = useState("articles");
@@ -22,6 +22,12 @@ function BooksAndArticlesPage() {
     setCategory(event.target.value);
   };
 
+  React.useEffect(() => {
+    document
+      .getElementById("reusable-hero-section")
+      .scrollIntoView({ behavior: "smooth" });
+  }, []);
+
   return (
     <>
       <HeroSection
@@ -34,7 +40,6 @@ function BooksAndArticlesPage() {
           padding: "2rem",
         }}
       >
-        <div>{category}</div>
         <HeaderContainer>
           <Typography variant="h4">Books and Articles</Typography>
           <Select

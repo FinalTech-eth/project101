@@ -34,7 +34,7 @@ const HeroSection = ({ url, title }) => {
 
   return (
     <div>
-      <div style={heroContainerStyle}>
+      <div style={heroContainerStyle} id="reusable-hero-section">
         <div style={heroTextStyle}>
           <Typography
             variant="h4"

@@ -12,17 +12,24 @@ const pages = [
     id: "Events",
     name: "Events",
   },
+
+  {
+    id: "Notice",
+    name: "Notice",
+  },
   {
     id: "Gallery",
     name: "Gallery",
   },
   {
-    id: "Other-churches",
-    name: "Other Churches",
+    id: "books-and-articles",
+    name: "Books and Articles",
+    hasOwnPage: true,
+    pageURL: "/books-and-articles",
   },
   {
-    id: "Notice",
-    name: "Notice",
+    id: "Other-churches",
+    name: "Other Churches",
   },
   {
     id: "About-us",

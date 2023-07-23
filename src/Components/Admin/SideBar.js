@@ -26,9 +26,9 @@ import { Avatar } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "../../API/axios";
 import { toast, ToastContainer } from "react-toastify";
-
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import ArticleIcon from "@mui/icons-material/Article";
 import { Link, useNavigate, Outlet } from "react-router-dom";
-
 import logo from "../../Assets/Images/logo.png";
 
 const drawerWidth = 240;
@@ -195,6 +195,18 @@ export default function AdminSharedLayout() {
               <PhotoLibraryIcon />
             </ListItemIcon>
             <ListItemText primary="Gallery" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/dashboard/books">
+            <ListItemIcon>
+              <MenuBookIcon />
+            </ListItemIcon>
+            <ListItemText primary="Books" />
+          </ListItemButton>
+          <ListItemButton component={Link} to="/dashboard/articles">
+            <ListItemIcon>
+              <ArticleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Articles" />
           </ListItemButton>
         </List>
       </Drawer>

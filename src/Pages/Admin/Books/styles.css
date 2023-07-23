@@ -1,0 +1,18 @@
+.book-file-upload {
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+}
+
+.MuiDialogContent-root .MuiFormControl-root {
+  gap: 1rem;
+  width: 80%;
+}
+
+.css-12s9qxi-MuiTableCell-root {
+  display: table-cell !important;
+}

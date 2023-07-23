@@ -16,6 +16,8 @@ import SignIn from "./Pages/Admin/Auth/SignIn";
 import RequiredAuth from "./Components/RequiredAuth";
 import AllImages from "./Pages/Admin/Gallery/AllImages";
 import AdminNoticePage from "./Pages/Admin/AdminNoticePage";
+import AdminBooksPage from "./Pages/Admin/Books";
+import AdminArticlesPage from "./Pages/Admin/Articles";
 import ContactUs from "./Pages/ContactUs";
 import "./App.css";
 
@@ -47,6 +49,8 @@ function App() {
               <Route path="events" element={<AllEvents />} />
               <Route path="gallery" element={<AllImages />} />
               <Route path="notice" element={<AdminNoticePage />} />
+              <Route path="books" element={<AdminBooksPage />} />
+              <Route path="articles" element={<AdminArticlesPage />} />
             </Route>
           </Route>
 

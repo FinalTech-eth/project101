@@ -16,21 +16,26 @@ import Loading from "../../../Components/Loading";
 import { Link } from "react-router-dom";
 import parser from "html-react-parser";
 
-const NoticeTable = ({ handleEditNotice }) => {
+const BooksTable = ({ handleEditBook, openDialog }) => {
   useEffect(() => {
-    fetchNotices();
+    fetchBooks();
   }, []);
 
-  const [notices, setNotices] = useState([]);
+  useEffect(() => {
+    if (openDialog) {
+      fetchBooks();
+    }
+  }, [openDialog]);
+
+  const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const admin = JSON.parse(localStorage.getItem("admin"));
   const token = admin.token;
 
-  const fetchNotices = async () => {
+  const fetchBooks = async () => {
     try {
-      const response = await axios.get("/notice");
-      console.log("The reps: ", response.data.items);
-      setNotices(response.data.items);
+      const response = await axios.get("/books");
+      setBooks(response.data.items);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -38,15 +43,15 @@ const NoticeTable = ({ handleEditNotice }) => {
     }
   };
 
-  const handleDeleteNotice = async (noticeId) => {
+  const handleDeleteBook = async (bookId) => {
     try {
-      await axios.delete(`/notice/delete/${noticeId}`, {
+      await axios.delete(`/book/delete/${bookId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchNotices(); // Fetch events again after deletion to update the list
-      toast.success("Notice deleted successfully!");
+      fetchBooks(); // Fetch events again after deletion to update the list
+      toast.success("Book deleted successfully!");
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete event.");
@@ -65,43 +70,51 @@ const NoticeTable = ({ handleEditNotice }) => {
             <TableHead>
               <TableRow>
                 <TableCell align="center">Title</TableCell>
-                <TableCell align="center">Description</TableCell>
+                <TableCell align="center">Author</TableCell>
+                <TableCell align="center">No. of Pages</TableCell>
+                <TableCell align="center">Published On</TableCell>
                 <TableCell align="center">Image</TableCell>
+                <TableCell align="center">Book</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {notices.map((notice) => (
+              {books.map((book) => (
                 <TableRow
-                  key={notice._id}
+                  key={book._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row" align="center">
-                    {notice.title}
+                    {book.title}
                   </TableCell>
-                  <TableCell align="center">
-                    {parser(notice.description)}
-                  </TableCell>
+                  <TableCell align="center">{book.author}</TableCell>
+                  <TableCell align="center">{book.no_of_pages}</TableCell>
+                  <TableCell align="center">{book.published_on}</TableCell>
                   <TableCell align="center">
                     <img
-                      src={notice.image}
+                      src={book.image}
                       style={{
                         width: "100px",
                         height: "100px",
                         objectFit: "cover",
                       }}
-                      alt="notice-img"
+                      alt="book-img"
                     />
+                  </TableCell>
+                  <TableCell align="center">
+                    <a href={book.file} target="_blank">
+                      {book.title}
+                    </a>
                   </TableCell>
                   <TableCell sx={{ display: "flex", justifyContent: "center" }}>
                     <IconButton
-                      onClick={() => handleEditNotice(notice)}
+                      onClick={() => handleEditBook(book)}
                       aria-label="Edit"
                     >
                       <ModeEditIcon />
                     </IconButton>
                     <IconButton
-                      onClick={() => handleDeleteNotice(notice._id)}
+                      onClick={() => handleDeleteBook(book._id)}
                       aria-label="Delete"
                     >
                       <DeleteForeverIcon />
@@ -117,4 +130,4 @@ const NoticeTable = ({ handleEditNotice }) => {
   );
 };
 
-export default NoticeTable;
+export default BooksTable;

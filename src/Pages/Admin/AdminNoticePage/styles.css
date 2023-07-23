@@ -3,3 +3,24 @@
   cursor: arrow;
   background: lightgrey;
 }
+
+.add-image-label {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  margin-top: 1rem;
+}
+
+.preview-image {
+  width: 200px;
+}
+
+.preview-image-container {
+  height: "100%";
+  width: "100%";
+}
+
+.preview-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

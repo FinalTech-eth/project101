@@ -16,45 +16,31 @@ import Loading from "../../../Components/Loading";
 import { Link } from "react-router-dom";
 import parser from "html-react-parser";
 
-const ArticlesTable = ({ handleEditBook, openDialog }) => {
+const ArticlesTable = ({
+  articles,
+  isLoading,
+  fetchArticles,
+  fetchArticle,
+}) => {
   useEffect(() => {
-    fetchBooks();
+    fetchArticles();
   }, []);
 
-  useEffect(() => {
-    if (openDialog) {
-      fetchBooks();
-    }
-  }, [openDialog]);
-
-  const [books, setBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const admin = JSON.parse(localStorage.getItem("admin"));
   const token = admin.token;
 
-  const fetchBooks = async () => {
+  const handleDeleteArticle = async (articleId) => {
     try {
-      const response = await axios.get("/books");
-      setBooks(response.data.items);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
-
-  const handleDeleteBook = async (bookId) => {
-    try {
-      await axios.delete(`/book/delete/${bookId}`, {
+      await axios.delete(`/article/delete/${articleId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchBooks(); // Fetch events again after deletion to update the list
-      toast.success("Book deleted successfully!");
+      fetchArticles(); // Fetch events again after deletion to update the list
+      toast.success("Article deleted successfully!");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to delete event.");
+      toast.error("Failed to delete article.");
     }
   };
 
@@ -71,50 +57,49 @@ const ArticlesTable = ({ handleEditBook, openDialog }) => {
               <TableRow>
                 <TableCell align="center">Title</TableCell>
                 <TableCell align="center">Author</TableCell>
-                <TableCell align="center">No. of Pages</TableCell>
-                <TableCell align="center">Published On</TableCell>
+                <TableCell align="center">Description</TableCell>
+                <TableCell align="center">Publication Date</TableCell>
                 <TableCell align="center">Image</TableCell>
-                <TableCell align="center">Book</TableCell>
                 <TableCell align="center">Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {books.map((book) => (
+              {articles?.map((article) => (
                 <TableRow
-                  key={book._id}
+                  key={article._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row" align="center">
-                    {book.title}
+                    {article.title}
                   </TableCell>
-                  <TableCell align="center">{book.author}</TableCell>
-                  <TableCell align="center">{book.no_of_pages}</TableCell>
-                  <TableCell align="center">{book.published_on}</TableCell>
+                  <TableCell align="center">{article.author}</TableCell>
+                  <TableCell align="center">
+                    {parser(article?.description.substring(0, 200))}
+                    {article.description.length > 100 ? "..." : ""}
+                  </TableCell>
+                  <TableCell align="center">
+                    {article.publication_date}
+                  </TableCell>
                   <TableCell align="center">
                     <img
-                      src={book.image}
+                      src={article.image}
                       style={{
                         width: "100px",
                         height: "100px",
                         objectFit: "cover",
                       }}
-                      alt="book-img"
+                      alt="article-img"
                     />
-                  </TableCell>
-                  <TableCell align="center">
-                    <a href={book.file} target="_blank">
-                      {book.title}
-                    </a>
                   </TableCell>
                   <TableCell sx={{ display: "flex", justifyContent: "center" }}>
                     <IconButton
-                      onClick={() => handleEditBook(book)}
+                      onClick={() => fetchArticle(article._id)}
                       aria-label="Edit"
                     >
                       <ModeEditIcon />
                     </IconButton>
                     <IconButton
-                      onClick={() => handleDeleteBook(book._id)}
+                      onClick={() => handleDeleteArticle(article._id)}
                       aria-label="Delete"
                     >
                       <DeleteForeverIcon />

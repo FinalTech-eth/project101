@@ -16,7 +16,7 @@ import Loading from "../../../Components/Loading";
 import { Link } from "react-router-dom";
 import parser from "html-react-parser";
 
-const BooksTable = ({ handleEditBook, openDialog }) => {
+const BooksTable = ({ fetchBook, openDialog }) => {
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -108,7 +108,7 @@ const BooksTable = ({ handleEditBook, openDialog }) => {
                   </TableCell>
                   <TableCell sx={{ display: "flex", justifyContent: "center" }}>
                     <IconButton
-                      onClick={() => handleEditBook(book)}
+                      onClick={() => fetchBook(book._id)}
                       aria-label="Edit"
                     >
                       <ModeEditIcon />

@@ -5,27 +5,40 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
+import parser from "html-react-parser";
 
 function BooksAndArticlesCard({ data }) {
+  const navigate = useNavigate();
+  const handleNavigate = ({ slug, id }) => {
+    navigate({ pathname: "/article/" + slug, search: `?id=${id}` });
+  };
   return (
     <>
-      <Card sx={{ maxWidth: 300 }}>
-        <CardMedia
-          sx={{ height: 200 }}
-          image="https://tesfaapologetics.org/wp-content/uploads/2019/01/evangelising-JW-300x300.jpg"
-          title="green iguana"
-        />
+      <Card
+        sx={{
+          minWidth: 290,
+          maxWidth: 300,
+          minHeight: 350,
+          position: "relative",
+        }}
+      >
+        <CardMedia sx={{ height: 150 }} image={data.image} title={data.title} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Lizard
+            {data.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {parser(data.description.substring(0, 100))}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small" href="google.com" variant="outlined">
+          <Button
+            size="small"
+            onClick={() => handleNavigate({ slug: data.slug, id: data._id })}
+            variant="outlined"
+            className="article-read-more-btn"
+          >
             ተጨማሪ ያብቡ
           </Button>
         </CardActions>

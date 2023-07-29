@@ -5,6 +5,7 @@ import EventIcon from "@mui/icons-material/Event";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import ArticleIcon from "@mui/icons-material/Article";
 
 const Dashboard = () => {
   function checkTokenExpiry() {
@@ -66,6 +67,17 @@ const Dashboard = () => {
                 <MenuBookIcon sx={{ fontSize: 48 }} />
                 <Typography variant="h5">Books</Typography>
                 <Typography variant="body2">Upload Books</Typography>
+              </CardContent>
+            </Card>
+          </Link>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Link to="/dashboard/articles" style={{ textDecoration: "none" }}>
+            <Card sx={{ backgroundColor: "#4caf50", color: "#fff" }}>
+              <CardContent>
+                <ArticleIcon sx={{ fontSize: 48 }} />
+                <Typography variant="h5">Articles</Typography>
+                <Typography variant="body2">Post Articles</Typography>
               </CardContent>
             </Card>
           </Link>

@@ -11,6 +11,7 @@ import AddEvent from "./Pages/Admin/AddEvent";
 import AdminSideBar from "./Components/Admin/SideBar";
 import AllEvents from "./Pages/Admin/AllEvents";
 import BooksAndArticlesPage from "./Pages/BooksAndArticlesPage";
+import SingleArticlesPage from "./Pages/BooksAndArticlesPage/SingleArticle";
 import GalleryImages from "./Pages/Admin/Gallery";
 import SignIn from "./Pages/Admin/Auth/SignIn";
 import RequiredAuth from "./Components/RequiredAuth";
@@ -35,10 +36,7 @@ function App() {
               path="books-and-articles"
               element={<BooksAndArticlesPage />}
             />
-            {/* <Route
-              path="books-and-articles/:slug"
-              element={<SingleBooksAndArticlesPage />}
-            /> */}
+            <Route path="article/:slug" element={<SingleArticlesPage />} />
             <Route path="/contact-us" element={<ContactUs />} />
           </Route>
           <Route path="admin" element={<SignIn />} />

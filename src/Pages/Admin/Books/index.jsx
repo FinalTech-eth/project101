@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "../../../API/axios";
 import { Button, FormControl, Box } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
@@ -12,7 +12,6 @@ import BooksTable from "./BooksTable";
 import TextField from "@mui/material/TextField";
 import "./styles.css";
 const Index = () => {
-  const [description, setDescription] = useState("");
   const [bookURL, setBookURL] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const theme = useTheme();
@@ -23,10 +22,14 @@ const Index = () => {
     reset,
   } = useForm();
 
+  const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [book, setBook] = useState(null);
   const [bookFile, setBookFile] = useState(null);
+
   const onSelectFile = (event) => {
     const selectedFile = event.target.files[0];
     // const selectedFilesArray = Array.from(selectedFiles);
@@ -135,12 +138,26 @@ const Index = () => {
   };
 
   const handleCloseDialog = () => {
-    console.log("Callingn");
     setOpenDialog(false);
     setBookFile(null);
+    setIsForEdit(null);
     setBook(null);
   };
 
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get("/books");
+      setBooks(response.data.items);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
   return (
     <>
       <Box sx={{ width: "100%", marginBottom: "4rem" }}>
@@ -154,7 +171,7 @@ const Index = () => {
           Add Book
         </Button>
       </Box>
-      <BooksTable fetchBook={fetchBook} openDialog={openDialog} />
+      <BooksTable fetchBook={fetchBook} books={books} isLoading={isLoading} />
       <Dialog
         open={openDialog}
         onClose={() => handleCloseDialog()}

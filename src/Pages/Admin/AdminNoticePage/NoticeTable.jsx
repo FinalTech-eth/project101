@@ -16,27 +16,9 @@ import Loading from "../../../Components/Loading";
 import { Link } from "react-router-dom";
 import parser from "html-react-parser";
 
-const NoticeTable = ({ handleEditNotice }) => {
-  useEffect(() => {
-    fetchNotices();
-  }, []);
-
-  const [notices, setNotices] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const NoticeTable = ({ fetchNotices, fetchNotice, notices, isLoading }) => {
   const admin = JSON.parse(localStorage.getItem("admin"));
   const token = admin.token;
-
-  const fetchNotices = async () => {
-    try {
-      const response = await axios.get("/notice");
-      console.log("The reps: ", response.data.items);
-      setNotices(response.data.items);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
 
   const handleDeleteNotice = async (noticeId) => {
     try {
@@ -45,7 +27,7 @@ const NoticeTable = ({ handleEditNotice }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchNotices(); // Fetch events again after deletion to update the list
+      fetchNotices();
       toast.success("Notice deleted successfully!");
     } catch (error) {
       console.error(error);
@@ -95,7 +77,7 @@ const NoticeTable = ({ handleEditNotice }) => {
                   </TableCell>
                   <TableCell sx={{ display: "flex", justifyContent: "center" }}>
                     <IconButton
-                      onClick={() => handleEditNotice(notice)}
+                      onClick={() => fetchNotice(notice._id)}
                       aria-label="Edit"
                     >
                       <ModeEditIcon />

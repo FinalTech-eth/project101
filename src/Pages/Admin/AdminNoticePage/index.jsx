@@ -5,18 +5,18 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
-import { toast } from "react-toastify";
-import { useTheme } from "@mui/material/styles";
+import { toast, ToastContainer } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useForm } from "react-hook-form";
-import { Input } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import NoticeTable from "./NoticeTable";
 import Loading from "../../../Components/Loading";
 import "./styles.css";
+
 const Index = () => {
   const [notices, setNotices] = useState([]);
-  const [notice, setNotice] = useState([]);
+  const [noticeId, setNoticeId] = useState(null);
   const [isForEdit, setIsForEdit] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -28,6 +28,8 @@ const Index = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
+    reset,
   } = useForm();
 
   const [selectedImage, setSelectedImage] = useState(null);
@@ -65,14 +67,13 @@ const Index = () => {
         });
         imageUrl = data;
       }
-      // Create a FormData object to send the image as a multipart form
       const formData = new FormData();
       formData.append("title", data.title);
       formData.append("description", description);
       formData.append("image", imageUrl);
 
       if (isForEdit) {
-        await axios.put("/notice/update/" + notice?._id, formData, {
+        await axios.put("/notice/update/" + noticeId, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
@@ -80,9 +81,10 @@ const Index = () => {
         });
 
         toast.success("Notice updated successfully!");
+        fetchNotices();
+        reset();
         setOpenDialog(false);
       } else {
-        // Make a POST request using Axios and the FormData
         await axios.post("/add-notice", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -92,12 +94,14 @@ const Index = () => {
 
         setSelectedImage(null);
         setPreviewImage(null);
-        toast.success("Event created successfully!");
+        toast.success("Notice created successfully!");
         setOpenDialog(false);
+        reset();
+        fetchNotices();
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create event.");
+      toast.error("Failed to create notice.");
     } finally {
       setIsSubmitting(false);
     }
@@ -126,8 +130,8 @@ const Index = () => {
 
       const response = await axios.get("/notice/" + id);
       setSingleFetchIsLoading(false);
-
-      setNotice(response.data);
+      setNoticeId(response.data._id);
+      setValue("title", response.data.title);
       setPreviewImage(response.data.image);
       setDescription(response.data.description);
     } catch (error) {
@@ -137,7 +141,7 @@ const Index = () => {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setNotice(null);
+    setSelectedImage(null);
     setPreviewImage(null);
     setDescription("");
     setIsForEdit(null);
@@ -182,12 +186,13 @@ const Index = () => {
               </>
             ) : (
               <>
-                <DialogContentText>Create a new Notice</DialogContentText>
+                <DialogContentText sx={{ color: "#000" }}>
+                  Create a new Notice
+                </DialogContentText>
                 <FormControl sx={{ mt: 2 }}>
                   <TextField
                     placeholder="Enter Title"
                     id="notice-title"
-                    defaultValue={notice?.title}
                     {...register("title", { required: true })}
                     error={!!errors.title}
                     helperText={errors.title && "Title is required"}
@@ -227,12 +232,20 @@ const Index = () => {
             )}
           </DialogContent>
           <DialogActions sx={{ padding: "20px 24px" }}>
-            <Button autoFocus color="primary" variant="outlined" type="submit">
+            <Button
+              autoFocus
+              color="primary"
+              variant="outlined"
+              type="submit"
+              endIcon={isSubmitting ? <CircularProgress size={20} /> : ""}
+              disabled={isSubmitting}
+            >
               {isForEdit ? "Update" : "Submit"}
             </Button>
           </DialogActions>
         </form>
       </Dialog>
+      <ToastContainer />
     </>
   );
 };

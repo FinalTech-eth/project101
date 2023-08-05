@@ -33,7 +33,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const EventList = () => {
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);

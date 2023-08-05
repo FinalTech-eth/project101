@@ -51,7 +51,7 @@ const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isForEdit, setIsForEdit] = useState(false);
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   const handleFormSubmit = async (data) => {
     try {

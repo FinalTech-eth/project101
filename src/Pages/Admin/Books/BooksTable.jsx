@@ -18,7 +18,7 @@ import parser from "html-react-parser";
 
 const BooksTable = ({ fetchBooks, fetchBook, books, isLoading }) => {
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   const handleDeleteBook = async (bookId) => {
     try {

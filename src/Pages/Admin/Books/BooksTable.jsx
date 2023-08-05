@@ -16,32 +16,9 @@ import Loading from "../../../Components/Loading";
 import { Link } from "react-router-dom";
 import parser from "html-react-parser";
 
-const BooksTable = ({ fetchBook, openDialog }) => {
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
-  useEffect(() => {
-    if (openDialog) {
-      fetchBooks();
-    }
-  }, [openDialog]);
-
-  const [books, setBooks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const BooksTable = ({ fetchBook, books, isLoading }) => {
   const admin = JSON.parse(localStorage.getItem("admin"));
   const token = admin?.token;
-
-  const fetchBooks = async () => {
-    try {
-      const response = await axios.get("/books");
-      setBooks(response.data.items);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-      setIsLoading(false);
-    }
-  };
 
   const handleDeleteBook = async (bookId) => {
     try {
@@ -50,7 +27,6 @@ const BooksTable = ({ fetchBook, openDialog }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      fetchBooks(); // Fetch events again after deletion to update the list
       toast.success("Book deleted successfully!");
     } catch (error) {
       console.error(error);

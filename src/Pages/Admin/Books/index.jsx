@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "../../../API/axios";
 import { Button, FormControl, Box } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
@@ -12,7 +12,6 @@ import BooksTable from "./BooksTable";
 import TextField from "@mui/material/TextField";
 import "./styles.css";
 const Index = () => {
-  const [description, setDescription] = useState("");
   const [bookURL, setBookURL] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const theme = useTheme();
@@ -20,13 +19,18 @@ const Index = () => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
     reset,
   } = useForm();
+
+  const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
   const [book, setBook] = useState(null);
   const [bookFile, setBookFile] = useState(null);
+
   const onSelectFile = (event) => {
     const selectedFile = event.target.files[0];
     // const selectedFilesArray = Array.from(selectedFiles);
@@ -88,6 +92,7 @@ const Index = () => {
       formData.append("author", data.author);
       formData.append("slug", data.title.toLowerCase().split(" ").join("-"));
       formData.append("published_on", data.published_on);
+
       // Make a POST request using Axios and the FormData
       if (isForEdit) {
         await axios.put("/book/update/" + book?._id, formData, {
@@ -126,8 +131,15 @@ const Index = () => {
       setOpenDialog(true);
       setIsForEdit(true);
 
-      console.log("Setting value : ", response.data);
       setBook(response.data);
+      setValue("title", response.data.title);
+      setValue("author", response.data.author);
+      setValue("no_of_pages", response.data.no_of_pages);
+
+      setValue(
+        "published_on",
+        new Date(book ? book.published_on : null)?.toISOString().slice(0, 16)
+      );
       setPreviewImage(response.data.image);
     } catch (error) {
       console.error(error);
@@ -135,12 +147,26 @@ const Index = () => {
   };
 
   const handleCloseDialog = () => {
-    console.log("Callingn");
     setOpenDialog(false);
     setBookFile(null);
+    setIsForEdit(null);
     setBook(null);
   };
 
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get("/books");
+      setBooks(response.data.items);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
   return (
     <>
       <Box sx={{ width: "100%", marginBottom: "4rem" }}>
@@ -154,7 +180,7 @@ const Index = () => {
           Add Book
         </Button>
       </Box>
-      <BooksTable fetchBook={fetchBook} openDialog={openDialog} />
+      <BooksTable fetchBook={fetchBook} books={books} isLoading={isLoading} />
       <Dialog
         open={openDialog}
         onClose={() => handleCloseDialog()}
@@ -179,7 +205,6 @@ const Index = () => {
                 required
                 id="book-title"
                 label="Title"
-                defaultValue={book?.title}
                 {...register("title", { required: true })}
                 error={!!errors.title}
                 helperText={errors.title && "Title is required"}
@@ -188,7 +213,6 @@ const Index = () => {
               <TextField
                 label="Author"
                 id="book-author"
-                defaultValue={book?.author}
                 {...register("author", { required: true })}
                 error={!!errors.author}
                 helperText={errors.autho && "Author is required"}
@@ -196,7 +220,6 @@ const Index = () => {
               <TextField
                 label="No. of pages"
                 id="number-of-pages"
-                defaultValue={book?.no_of_pages}
                 {...register("no_of_pages", { required: true })}
                 error={!!errors.title}
                 helperText={errors.no_of_pages && "No of Pages is required"}
@@ -205,9 +228,6 @@ const Index = () => {
                 label="Publication Date" // Update the label to "Datetime"
                 type="datetime-local" // Use "datetime-local" input type for datetime
                 variant="outlined"
-                defaultValue={new Date(book ? book.published_on : null)
-                  ?.toISOString()
-                  .slice(0, 16)}
                 {...register("published_on", { required: true })}
                 error={!!errors.published_on}
                 helperText={

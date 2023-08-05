@@ -24,7 +24,7 @@ const NoticeTable = ({ handleEditNotice }) => {
   const [notices, setNotices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   const fetchNotices = async () => {
     try {

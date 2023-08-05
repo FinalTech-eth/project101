@@ -27,7 +27,7 @@ function BooksAndArticlesPage() {
   };
 
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   const fetchBooks = async () => {
     setIsLoading(true);

@@ -9,7 +9,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import EventCategories from "../../../Enums/EventCategory";
 
 const admin = JSON.parse(localStorage.getItem("admin"));
-const token = admin.token;
+const token = admin?.token;
 
 const uploadImage = async (image) => {
   const formData = new FormData();

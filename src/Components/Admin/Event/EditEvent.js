@@ -21,7 +21,7 @@ const uploadImage = async (image) => {
 
 const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   const {
     register,

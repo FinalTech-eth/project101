@@ -57,7 +57,7 @@ const Index = () => {
       setIsSubmitting(true);
 
       let imageUrl = previewImage;
-
+      let getBookUrl = bookURL;
       if (selectedImage) {
         const imageFormData = new FormData();
         imageFormData.append("image", selectedImage);
@@ -68,7 +68,8 @@ const Index = () => {
           },
         });
         imageUrl = data;
-
+      }
+      if (bookFile) {
         // Upload book
         if (bookFile.type !== "application/pdf") {
           toast.error("File upload failed. Only PDF files are allowed.");
@@ -84,14 +85,14 @@ const Index = () => {
           },
         });
 
-        setBookURL(bookData);
+        getBookUrl = bookData;
       }
       // Create a FormData object to send the image as a multipart form
       const formData = new FormData();
       formData.append("title", data.title);
       formData.append("no_of_pages", data.no_of_pages);
       formData.append("image", imageUrl);
-      formData.append("file", bookURL);
+      formData.append("file", getBookUrl);
       formData.append("author", data.author);
       formData.append("slug", data.title.toLowerCase().split(" ").join("-"));
       formData.append("published_on", data.published_on);
@@ -104,8 +105,6 @@ const Index = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        reset();
-        setOpenDialog(false);
       } else {
         await axios.post("/add-book", formData, {
           headers: {
@@ -117,6 +116,7 @@ const Index = () => {
       setSelectedImage(null);
       setPreviewImage(null);
       reset();
+      fetchBooks();
       setOpenDialog(false);
       toast.success("Book created successfully!");
     } catch (error) {
@@ -142,6 +142,7 @@ const Index = () => {
       setValue("title", response.data.title);
       setValue("author", response.data.author);
       setValue("no_of_pages", response.data.no_of_pages);
+      console.log("The file : ", response.data.file);
       setBookURL(response.data.file);
       setValue(
         "published_on",

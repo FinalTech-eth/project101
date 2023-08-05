@@ -10,7 +10,7 @@ import "./style.css";
 
 const FileUploadWithPreview = () => {
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);

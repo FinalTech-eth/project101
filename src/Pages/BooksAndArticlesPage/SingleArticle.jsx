@@ -15,7 +15,7 @@ const SingleArticle = () => {
   const id = searchParams.get("id");
 
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   const fetchArticle = async () => {
     setIsLoading(true);

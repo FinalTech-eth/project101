@@ -8,10 +8,22 @@ import "react-toastify/dist/ReactToastify.css";
 import SaveIcon from "@mui/icons-material/Save";
 import EventCategories from "../../../Enums/EventCategory";
 
-const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
-  const admin = JSON.parse(localStorage.getItem("admin"));
-const token = admin.token;
+const admin = JSON.parse(localStorage.getItem("admin"));
+const token = admin?.token;
 
+const uploadImage = async (image) => {
+  const formData = new FormData();
+  formData.append("image", image);
+  const response = await axios.post("/image-upload", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
   const {
     register,
     handleSubmit,
@@ -20,25 +32,34 @@ const token = admin.token;
   } = useForm();
   const [selectedImage, setSelectedImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
- 
+
   const handleFormSubmit = async (data) => {
     try {
       setIsSubmitting(true);
 
-      // Create a FormData object to send the image as a multipart form
+      // Upload image using the new utility function
+      let imageUrl = null;
+      if (selectedImage) {
+        // console.log(selectedImage);
+        imageUrl = await uploadImage(selectedImage);
+        // console.log(imageUrl);
+      }
+
+      // Create a FormData object to send the data as a multipart form
       const formData = new FormData();
       formData.append("title", data.title);
       formData.append("description", data.description);
       formData.append("location", data.location);
-      formData.append("date", data.date); // Use "datetime" instead of "date"
-      formData.append("category", data.category); // Add the category field
-      formData.append("image", selectedImage);
+      formData.append("date", data.date);
+      formData.append("category", data.category);
+      formData.append("image", imageUrl);
+      formData.append("video-link", data["video-link"]); // Add the video-link field
 
       // Make a POST request using Axios and the FormData
       await axios.post("/add-event", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -127,6 +148,11 @@ const token = admin.token;
         ))}
         <MenuItem value="other">Other</MenuItem>
       </TextField>
+      <TextField
+        label="Video Link" // Add the "video-link" field
+        variant="outlined"
+        {...register("video-link")}
+      />
 
       <Box sx={{ mt: 2 }}>
         <label htmlFor="image-upload">

@@ -25,7 +25,7 @@ const AlIGalleryImages = () => {
   const [refetch, setRefetch] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   useEffect(() => {
     fetchImages();

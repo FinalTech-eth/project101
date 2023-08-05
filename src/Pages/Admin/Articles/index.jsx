@@ -45,7 +45,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isForEdit, setIsForEdit] = useState(false);
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   const fetchArticles = async () => {
     try {

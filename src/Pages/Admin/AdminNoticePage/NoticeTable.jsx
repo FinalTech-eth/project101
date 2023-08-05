@@ -18,7 +18,7 @@ import parser from "html-react-parser";
 
 const NoticeTable = ({ fetchNotices, fetchNotice, notices, isLoading }) => {
   const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin.token;
+  const token = admin?.token;
 
   const handleDeleteNotice = async (noticeId) => {
     try {

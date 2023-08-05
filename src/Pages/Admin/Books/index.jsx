@@ -10,7 +10,11 @@ import { useTheme } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 import BooksTable from "./BooksTable";
 import TextField from "@mui/material/TextField";
+import { CircularProgress } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import "./styles.css";
+
 const Index = () => {
   const [bookURL, setBookURL] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -101,6 +105,8 @@ const Index = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        reset();
+        setOpenDialog(false);
       } else {
         await axios.post("/add-book", formData, {
           headers: {
@@ -111,10 +117,12 @@ const Index = () => {
       }
       setSelectedImage(null);
       setPreviewImage(null);
-      toast.success("Event created successfully!");
+      reset();
+      setOpenDialog(false);
+      toast.success("Book created successfully!");
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create event.");
+      toast.error("Failed to create book.");
     } finally {
       setIsSubmitting(false);
     }
@@ -135,7 +143,7 @@ const Index = () => {
       setValue("title", response.data.title);
       setValue("author", response.data.author);
       setValue("no_of_pages", response.data.no_of_pages);
-
+      setBookURL(response.data.file);
       setValue(
         "published_on",
         new Date(book ? book.published_on : null)?.toISOString().slice(0, 16)
@@ -151,6 +159,9 @@ const Index = () => {
     setBookFile(null);
     setIsForEdit(null);
     setBook(null);
+    reset();
+    setPreviewImage(null);
+    setBookURL(null);
   };
 
   useEffect(() => {
@@ -180,7 +191,12 @@ const Index = () => {
           Add Book
         </Button>
       </Box>
-      <BooksTable fetchBook={fetchBook} books={books} isLoading={isLoading} />
+      <BooksTable
+        fetchBooks={fetchBooks}
+        fetchBook={fetchBook}
+        books={books}
+        isLoading={isLoading}
+      />
       <Dialog
         open={openDialog}
         onClose={() => handleCloseDialog()}
@@ -211,20 +227,23 @@ const Index = () => {
                 fullWidth={true}
               />
               <TextField
+                required
                 label="Author"
                 id="book-author"
                 {...register("author", { required: true })}
                 error={!!errors.author}
-                helperText={errors.autho && "Author is required"}
+                helperText={errors.author && "Author is required"}
               />
               <TextField
+                required
                 label="No. of pages"
                 id="number-of-pages"
                 {...register("no_of_pages", { required: true })}
-                error={!!errors.title}
+                error={!!errors.no_of_pages}
                 helperText={errors.no_of_pages && "No of Pages is required"}
               />
               <TextField
+                required
                 label="Publication Date" // Update the label to "Datetime"
                 type="datetime-local" // Use "datetime-local" input type for datetime
                 variant="outlined"
@@ -256,8 +275,36 @@ const Index = () => {
                   </div>
                 )}
               </Box>
-              <label className="book-file-upload">
-                <p>{bookURL ? "Uploaded Successfully" : "Upload File"}</p>
+              <label
+                className={`book-file-upload ${bookFile || bookURL ? "" : ""}`}
+              >
+                <p>
+                  {bookFile || bookURL ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "5px;",
+                      }}
+                    >
+                      <span>Success</span>
+                      <CheckCircleIcon style={{ color: "#0ae92f" }} />
+                    </Box>
+                  ) : (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <span>Upload File</span>
+                      <CloudUploadIcon />
+                    </Box>
+                  )}
+                </p>
                 <input
                   type="file"
                   name="file"
@@ -269,7 +316,14 @@ const Index = () => {
             </FormControl>
           </DialogContent>
           <DialogActions sx={{ padding: "20px 24px" }}>
-            <Button autoFocus color="primary" variant="outlined" type="submit">
+            <Button
+              autoFocus
+              color="primary"
+              variant="outlined"
+              type="submit"
+              endIcon={isSubmitting ? <CircularProgress size={20} /> : ""}
+              disabled={isSubmitting}
+            >
               {isForEdit ? "Update" : "Submit"}
             </Button>
           </DialogActions>

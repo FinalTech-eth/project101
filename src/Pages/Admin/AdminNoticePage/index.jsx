@@ -110,7 +110,7 @@ const Index = () => {
   const fetchNotices = async () => {
     try {
       const response = await axios.get("/notice");
-      setNotices(response.data.items);
+      setNotices(response.data.items.reverse());
       setIsLoading(false);
     } catch (error) {
       console.error(error);

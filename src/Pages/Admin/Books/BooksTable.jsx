@@ -16,7 +16,7 @@ import Loading from "../../../Components/Loading";
 import { Link } from "react-router-dom";
 import parser from "html-react-parser";
 
-const BooksTable = ({ fetchBook, books, isLoading }) => {
+const BooksTable = ({ fetchBooks, fetchBook, books, isLoading }) => {
   const admin = JSON.parse(localStorage.getItem("admin"));
   const token = admin.token;
 
@@ -28,6 +28,7 @@ const BooksTable = ({ fetchBook, books, isLoading }) => {
         },
       });
       toast.success("Book deleted successfully!");
+      fetchBooks();
     } catch (error) {
       console.error(error);
       toast.error("Failed to delete event.");

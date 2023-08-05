@@ -13,7 +13,7 @@ const NoticeBoard = () => {
     try {
       const response = await axios.get("/notice");
       console.log("The reps: ", response.data.items);
-      setNotice(response.data.items[0]);
+      setNotice(response.data.items.pop());
       setIsLoading(false);
     } catch (error) {
       console.error(error);

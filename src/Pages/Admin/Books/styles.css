@@ -8,6 +8,10 @@
   border: 1px solid #ccc;
 }
 
+.book-file-upload.success {
+  border: 1px solid #0ae92f;
+}
+
 .MuiDialogContent-root .MuiFormControl-root {
   gap: 1rem;
   width: 80%;

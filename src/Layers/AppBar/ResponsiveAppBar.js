@@ -17,6 +17,7 @@ const pages = [
   { name: "Events", url: "#events", id: "Events" },
   { name: "Notice", url: "#notice", id: "Notice" },
   { name: "Gallery", url: "gallery", hasOwnPage: true },
+  { name: "Books and Articles", url: "books-and-articles", hasOwnPage: true },
   { name: "Other-churches", url: "#Other-churches", id: "Other-churches" },
   { name: "About Us", url: "about", hasOwnPage: true },
   { name: "Contact Us", url: "contact-us", hasOwnPage: true },

@@ -10,10 +10,15 @@ import Dashboard from "./Pages/Admin/Dashboard";
 import AddEvent from "./Pages/Admin/AddEvent";
 import AdminSideBar from "./Components/Admin/SideBar";
 import AllEvents from "./Pages/Admin/AllEvents";
+import BooksAndArticlesPage from "./Pages/BooksAndArticlesPage";
+import SingleArticlesPage from "./Pages/BooksAndArticlesPage/SingleArticle";
 import GalleryImages from "./Pages/Admin/Gallery";
 import SignIn from "./Pages/Admin/Auth/SignIn";
 import RequiredAuth from "./Components/RequiredAuth";
 import AllImages from "./Pages/Admin/Gallery/AllImages";
+import AdminNoticePage from "./Pages/Admin/AdminNoticePage";
+import AdminBooksPage from "./Pages/Admin/Books";
+import AdminArticlesPage from "./Pages/Admin/Articles";
 import ContactUs from "./Pages/ContactUs";
 import "./App.css";
 
@@ -27,6 +32,11 @@ function App() {
             <Route path="about" element={<About />} />
             <Route path="gallery" element={<Gallery />} />
             <Route path="event/:id" element={<SingleEventPage />} />
+            <Route
+              path="books-and-articles"
+              element={<BooksAndArticlesPage />}
+            />
+            <Route path="article/:slug" element={<SingleArticlesPage />} />
             <Route path="/contact-us" element={<ContactUs />} />
           </Route>
           <Route path="admin" element={<SignIn />} />
@@ -36,6 +46,9 @@ function App() {
               <Route path="add-event" element={<AddEvent />} />
               <Route path="events" element={<AllEvents />} />
               <Route path="gallery" element={<AllImages />} />
+              <Route path="notice" element={<AdminNoticePage />} />
+              <Route path="books" element={<AdminBooksPage />} />
+              <Route path="articles" element={<AdminArticlesPage />} />
             </Route>
           </Route>
 

@@ -60,16 +60,16 @@
   font-weight: 100;
 }
 @media only screen and (max-width: 600px) {
-  .vLine-1{
+  .vLine-1 {
     left: 10%;
   }
-  .vLine-2{
+  .vLine-2 {
     right: 10%;
   }
-  .hLine-1{
+  .hLine-1 {
     top: 60px;
   }
-  .hLine-2{
+  .hLine-2 {
     bottom: 10%;
   }
   #hero-text {
@@ -87,5 +87,8 @@
   }
   #hero_header_1 {
     font-size: 20px;
+  }
+  #home_carosel_container {
+    height: 80vh;
   }
 }

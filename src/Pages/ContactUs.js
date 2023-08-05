@@ -1,6 +1,6 @@
 import React from "react";
 import Contact from "../Components/contact/Contact";
-import bgImg from "../Assets/Images/4934192.webp";
+import bgImg from "../Assets/Images/photo_5877545827432512353_w.jpg";
 import topTornEdge from "../Assets/Images/beige-torn-edge.png";
 import { Typography } from "@mui/material";
 

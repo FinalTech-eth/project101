@@ -18,7 +18,6 @@ import "./styles.css";
 const Index = () => {
   const [bookURL, setBookURL] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const theme = useTheme();
   const {
     register,
     handleSubmit,
@@ -162,6 +161,7 @@ const Index = () => {
     reset();
     setPreviewImage(null);
     setBookURL(null);
+    fetchBooks();
   };
 
   useEffect(() => {

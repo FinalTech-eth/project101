@@ -12,7 +12,6 @@ const NoticeBoard = () => {
   const fetchNotice = async () => {
     try {
       const response = await axios.get("/notice");
-      console.log("The reps: ", response.data.items);
       setNotice(response.data.items.pop());
       setIsLoading(false);
     } catch (error) {

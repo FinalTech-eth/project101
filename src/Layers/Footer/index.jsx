@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import topTornEdge from "../../Assets/Images/top-torn-edge.png";
 import { useNavigate } from "react-router-dom";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 const pages = [
   {
@@ -130,6 +131,17 @@ const Footer = () => {
             <br />
             Pastor Eyob Melese
           </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#fff",
+              marginTop: "10px",
+            }}
+          >
+            <YouTubeIcon />
+          </Box>
         </Box>
         <Divider
           orientation="horizontal"

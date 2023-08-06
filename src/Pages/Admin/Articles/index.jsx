@@ -3,30 +3,39 @@ import axios from "../../../API/axios";
 import { Button, FormControl, Box } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import { toast, ToastContainer } from "react-toastify";
-import { useTheme } from "@mui/material/styles";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useForm } from "react-hook-form";
-import { Input } from "@mui/material";
 import ArticlesTable from "./ArticlesTable";
 import { TextField } from "@mui/material";
+import { CircularProgress } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CancelIcon from "@mui/icons-material/Cancel";
 import "./styles.css";
+
 const Index = () => {
   const [description, setDescription] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
-  const theme = useTheme();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [articles, setArticles] = useState([]);
+  const [article, setArticle] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isForEdit, setIsForEdit] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
 
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
   const onSelectFile = (event) => {
     const selectedFile = event.target.files[0];
     // const selectedFilesArray = Array.from(selectedFiles);
@@ -40,10 +49,6 @@ const Index = () => {
     event.target.value = "";
   };
 
-  const [articles, setArticles] = useState([]);
-  const [article, setArticle] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isForEdit, setIsForEdit] = useState(false);
   const admin = JSON.parse(localStorage.getItem("admin"));
   const token = admin?.token;
 
@@ -65,6 +70,13 @@ const Index = () => {
 
       setArticle(response.data);
 
+      setValue("title", response.data.title);
+      setValue("author", response.data.author);
+      setValue(
+        "publication_date",
+        new Date(response.data.publication_date)?.toISOString().slice(0, 16)
+      );
+
       setDescription(response.data.description);
       setPreviewImage(response.data.image);
       setIsLoading(false);
@@ -75,8 +87,7 @@ const Index = () => {
 
   const handleFormSubmit = async (data) => {
     try {
-      setIsLoading(true);
-
+      setIsSubmitting(true);
       let imageUrl = previewImage;
 
       if (selectedImage) {
@@ -106,6 +117,7 @@ const Index = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        toast.success("Article updated successfully!");
       } else {
         await axios.post("/add-article", formData, {
           headers: {
@@ -113,19 +125,29 @@ const Index = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        toast.success("Article created successfully!");
       }
 
+      reset();
       setSelectedImage(null);
       setPreviewImage(null);
-      toast.success("Article created successfully!");
       setOpenDialog(false);
       fetchArticles();
     } catch (error) {
       console.error(error);
       toast.error("Failed to create article.");
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setIsForEdit(null);
+    setArticle(null);
+    setDescription("");
+    setPreviewImage(null);
+    reset();
+    fetchArticles();
   };
 
   return (
@@ -149,23 +171,35 @@ const Index = () => {
       />
       <Dialog
         open={openDialog}
-        onClose={() => {
-          setOpenDialog(false);
-        }}
+        onClose={() => handleCloseDialog()}
         aria-labelledby="responsive-dialog-title"
       >
+        <DialogTitle sx={{ padding: "5px" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <DialogContentText sx={{ paddingLeft: "1rem" }}>
+              Create New Article
+            </DialogContentText>
+            <IconButton onClick={() => handleCloseDialog()}>
+              <CancelIcon />
+            </IconButton>
+          </Box>
+        </DialogTitle>
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
           encType="multipart/form-data"
         >
           <DialogContent>
-            <DialogContentText>Create a New Notice</DialogContentText>
             <FormControl sx={{ mt: 2 }}>
               <TextField
                 required
                 label="Title"
                 id="article-title"
-                defaultValue={article?.title}
                 {...register("title", { required: true })}
                 error={!!errors.title}
                 helperText={errors.title && "Title is required"}
@@ -176,7 +210,6 @@ const Index = () => {
               <TextField
                 required
                 label="Author"
-                defaultValue={article?.author}
                 id="article-title"
                 {...register("author", { required: true })}
                 error={!!errors.author}
@@ -185,15 +218,11 @@ const Index = () => {
               />
             </FormControl>
             <FormControl sx={{ mt: 2 }}>
+              {article?.publication_date}
               <TextField
                 label="Publication Date" // Update the label to "Datetime"
                 type="datetime-local" // Use "datetime-local" input type for datetime
                 variant="outlined"
-                defaultValue={new Date(
-                  article ? article.publication_date : null
-                )
-                  ?.toISOString()
-                  .slice(0, 16)}
                 {...register("publication_date", { required: true })}
                 error={!!errors.publication_date}
                 helperText={
@@ -236,7 +265,14 @@ const Index = () => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ padding: "20px 24px" }}>
-            <Button autoFocus color="primary" variant="outlined" type="submit">
+            <Button
+              autoFocus
+              color="primary"
+              variant="outlined"
+              type="submit"
+              endIcon={isSubmitting ? <CircularProgress size={20} /> : ""}
+              disabled={isSubmitting ? true : false}
+            >
               {isForEdit ? "Update" : "Submit"}
             </Button>
           </DialogActions>

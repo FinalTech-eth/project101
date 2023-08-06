@@ -48,6 +48,16 @@ const ArticlesTable = ({
     return <Loading />;
   }
 
+  const formattedPublicationDate = (publicationDate) => {
+    const date = new Date(publicationDate); // Current date
+    const formatted = date.toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+    return formatted;
+  };
+
   return (
     <>
       <Box>
@@ -78,7 +88,7 @@ const ArticlesTable = ({
                     {article.description.length > 100 ? "..." : ""}
                   </TableCell>
                   <TableCell align="center">
-                    {article.publication_date}
+                    {formattedPublicationDate(article?.publication_date)}
                   </TableCell>
                   <TableCell align="center">
                     <img

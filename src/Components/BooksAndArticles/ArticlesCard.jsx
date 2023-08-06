@@ -39,7 +39,7 @@ function BooksAndArticlesCard({ data }) {
             variant="outlined"
             className="article-read-more-btn"
           >
-            ተጨማሪ ያብቡ
+            Read More
           </Button>
         </CardActions>
       </Card>

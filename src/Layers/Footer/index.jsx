@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import topTornEdge from "../../Assets/Images/top-torn-edge.png";
 import { useNavigate } from "react-router-dom";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import Link from "@mui/material/Link";
 
 const pages = [
   {
@@ -118,6 +119,19 @@ const Footer = () => {
           }}
         />
         <Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              color: "#fff",
+              marginTop: "10px",
+            }}
+          >
+            <a href="https://youtube.com/@ACIFOttawa" target="_blank">
+              <YouTubeIcon sx={{ color: "red", fontSize: "1.5rem" }} />
+            </a>
+          </Box>
           <Typography
             variant="h4"
             sx={{
@@ -131,17 +145,6 @@ const Footer = () => {
             <br />
             Pastor Eyob Melese
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              color: "#fff",
-              marginTop: "10px",
-            }}
-          >
-            <YouTubeIcon />
-          </Box>
         </Box>
         <Divider
           orientation="horizontal"

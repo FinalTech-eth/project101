@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import AboutSection from "../Components/About/AboutSection";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const About = () => {
   React.useEffect(() => {

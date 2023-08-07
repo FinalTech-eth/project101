@@ -14,7 +14,7 @@ import img4 from "../../Assets/Images/photo_4958761978181037044_y.jpg";
 
 const images = [
   {
-    title: "Well Come to Apostolic church of Canada/Ottawa!",
+    title: "Welcome to Apostolic church International Fellowship Ottawa!",
     label: "Join the Prayer",
     article: "",
     imgPath: img1,

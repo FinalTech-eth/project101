@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Box, Typography, MenuItem } from "@mui/material";
+import { TextField, Button, Box, Typography, MenuItem, Menu } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import axios from "../../../API/axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SaveIcon from "@mui/icons-material/Save";
 import EventCategories from "../../../Enums/EventCategory";
+import IconButton from "@mui/material/IconButton";
+import CancelIcon from "@mui/icons-material/Cancel";
+import Select from '@mui/material/Select';
+
+const admin = JSON.parse(localStorage.getItem("admin"));
+const token = admin?.token;
 
 const uploadImage = async (image) => {
   const formData = new FormData();
@@ -14,14 +20,13 @@ const uploadImage = async (image) => {
   const response = await axios.post("/image-upload", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
     },
   });
   return response.data;
 };
 
 const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
-  const admin = JSON.parse(localStorage.getItem("admin"));
-  const token = admin?.token;
 
   const {
     register,
@@ -38,9 +43,18 @@ const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
     setValue("title", event.title);
     setValue("description", event.description);
     setValue("location", event.location);
-    setValue("date", event.date);
+    setValue("date",
+      new Date(event.date)?.toISOString().slice(0, 16)
+     );
     setValue("category", event.category); // Set the "category" value
+    setValue("videoUrl", event.videoUrl); // Set the "category" value
   }, [event, setValue]);
+
+  const [category, setCategory] = useState(event.category || '');
+
+  const handleChange = (event) => {
+    setCategory(event.target.value)
+  };
 
   const handleFormSubmit = async (data) => {
     try {
@@ -59,8 +73,8 @@ const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
       formData.append("location", data.location);
       formData.append("date", data.date);
       formData.append("image", imageUrl || event.image); // Use previous image URL if no new image is selected
-      formData.append("category", data.category); // Add the "category" field to the FormData
-      formData.append("video-link", data["video-link"]);
+      formData.append("category", category); // Add the "category" field to the FormData
+      formData.append("videoUrl", data.videoUrl);
 
       // Make a PUT request using Axios and the FormData
       await axios.put(`/event/update/${event._id}`, formData, {
@@ -92,6 +106,13 @@ const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
   };
 
   return (
+    <>
+     <IconButton onClick={() => onCloseModal()}
+     sx={{position:"fixed",  justifyContent:"end", right: "10px"}}
+     > 
+    <CancelIcon />
+    </IconButton>
+
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
       style={{
@@ -140,25 +161,36 @@ const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
           shrink: true,
         }}
       />
-      <TextField
-        label="Category"
-        select
-        variant="outlined"
-        {...register("category", { required: true })}
-        error={!!errors.category}
-        helperText={errors.category && "Category is required"}
-      >
-        {Object.values(EventCategories).map((category) => (
-          <MenuItem key={category} value={category}>
-            {category}
-          </MenuItem>
-        ))}
-        <MenuItem value="other">Other</MenuItem>
-      </TextField>
+       <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={category}
+          label="Category"
+          onChange={handleChange}
+          error={!!errors.category}
+
+          helperText={errors.category && "Category is required"}
+        >
+        {/* <TextField
+          label="Category"
+          select
+          variant="outlined"
+          {...register("category", { required: true })}
+          error={!!errors.category}
+          helperText={errors.category && "Category is required"}
+        > */}
+          {Object.values(EventCategories).map((category) => (
+            <MenuItem key={category} value={category}>
+              {category}
+            </MenuItem>
+          ))}
+          <MenuItem value="other">Other</MenuItem>
+        {/* </TextField> */}
+      </Select>
       <TextField
         label="Video Link" // Add the "video-link" field
         variant="outlined"
-        {...register("video-link")}
+        {...register("videoUrl")}
       />
 
       <Box sx={{ mt: 2 }}>
@@ -203,6 +235,8 @@ const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
 
       <ToastContainer />
     </form>
+        
+    </>
   );
 };
 

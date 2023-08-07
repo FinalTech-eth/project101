@@ -7,6 +7,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SaveIcon from "@mui/icons-material/Save";
 import EventCategories from "../../../Enums/EventCategory";
+import IconButton from "@mui/material/IconButton";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const admin = JSON.parse(localStorage.getItem("admin"));
 const token = admin?.token;
@@ -53,7 +55,7 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
       formData.append("date", data.date);
       formData.append("category", data.category);
       formData.append("image", imageUrl);
-      formData.append("video-link", data["video-link"]); // Add the video-link field
+      formData.append("videoUrl", data.videoUrl); // Add the video-link field
 
       // Make a POST request using Axios and the FormData
       await axios.post("/add-event", formData, {
@@ -78,13 +80,18 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
       setIsSubmitting(false);
     }
   };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setSelectedImage(file);
   };
 
   return (
+    <>
+     <IconButton onClick={() => onCloseModal()}
+     sx={{position:"fixed",  justifyContent:"end", right: "10px"}}
+     > 
+    <CancelIcon />
+    </IconButton>
     <form
       onSubmit={handleSubmit(handleFormSubmit)}
       style={{
@@ -151,7 +158,7 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
       <TextField
         label="Video Link" // Add the "video-link" field
         variant="outlined"
-        {...register("video-link")}
+        {...register("videoUrl")}
       />
 
       <Box sx={{ mt: 2 }}>
@@ -191,6 +198,8 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
 
       <ToastContainer />
     </form>
+    </>
+   
   );
 };
 

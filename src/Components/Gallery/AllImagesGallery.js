@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../../API/axios";
 import ModalImage from "react-modal-image";
-import { Pagination } from "@mui/material";
+import { Pagination, Button } from "@mui/material";
 
 import lightTexture from "../../Assets/Images/light-texture.jpg";
 import "./gallery.css";
@@ -12,26 +12,50 @@ export default function AllImagesGallery() {
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [refetch, setRefetch] = useState(false);
+
+  const [totalPages, setTotalPages] = useState(0);
+
+  
 
   useEffect(() => {
     fetchImages();
-  }, []);
+  }, [currentPage]);
 
   const fetchImages = async () => {
     try {
-      const response = await axios.get("/gallery");
+      console.log(currentPage)
+      const response = await axios.get(`/gallery?page=${currentPage}`);
+      console.log(response.data)
+
+      setTotalPages(response.data.totalPages);
       const transformedImages = response.data.items.map((item) => ({
         original: item.image,
         thumbnail: item.image,
         caption: item.caption,
       }));
       setImages(transformedImages);
+      console.log("tr", transformedImages)
       setIsLoading(false);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
     }
   };
+
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
 
   const containerStyle = {
     backgroundImage: `url(${lightTexture})`,
@@ -68,12 +92,18 @@ export default function AllImagesGallery() {
           />
         ))}
       </div>
-      <Pagination
-        count={Math.ceil(images.length / itemsPerPage)}
-        page={currentPage}
-        onChange={handlePageChange}
-        color="primary"
-      />
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }}
+      >
+        <Button onClick={handlePrevPage} disabled={currentPage === 1}>
+          Prev
+        </Button>
+        <span>{currentPage}</span>
+        <Button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          Next
+        </Button>
+      </div>
+     
     </div>
   );
 }

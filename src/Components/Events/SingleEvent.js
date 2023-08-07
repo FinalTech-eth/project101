@@ -7,7 +7,7 @@ import Loading from "../Loading";
 import { useParams } from "react-router-dom";
 import { format, parseISO, isValid } from "date-fns";
 
-const SingleEvent = ({ title, description, date, location }) => {
+const SingleEvent = ({ title, description, date, location, videoUrl }) => {
   const [formattedDate, setFormattedDate] = useState("");
   const [formattedTime, setFormattedTime] = useState("");
 
@@ -72,6 +72,11 @@ const SingleEvent = ({ title, description, date, location }) => {
           </Typography>
           <Typography variant="subtitle1" style={contentStyle}>
             <strong>Location:</strong> {location}
+          </Typography>
+          <Typography variant="subtitle1" style={contentStyle}>
+          <strong>Video Link:</strong>
+            
+            <a href={videoUrl} target="blank"> {videoUrl} </a>
           </Typography>
           <Typography variant="body1" style={contentStyle}>
             {description}

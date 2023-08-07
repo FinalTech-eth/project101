@@ -16,17 +16,15 @@ export default function AllImagesGallery() {
 
   const [totalPages, setTotalPages] = useState(0);
 
-  
-
   useEffect(() => {
     fetchImages();
   }, [currentPage]);
 
   const fetchImages = async () => {
     try {
-      console.log(currentPage)
+      console.log(currentPage);
       const response = await axios.get(`/gallery?page=${currentPage}`);
-      console.log(response.data)
+      console.log(response.data);
 
       setTotalPages(response.data.totalPages);
       const transformedImages = response.data.items.map((item) => ({
@@ -35,14 +33,13 @@ export default function AllImagesGallery() {
         caption: item.caption,
       }));
       setImages(transformedImages);
-      console.log("tr", transformedImages)
+      console.log("tr", transformedImages);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
     }
   };
-
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -56,7 +53,6 @@ export default function AllImagesGallery() {
     }
   };
 
-
   const containerStyle = {
     backgroundImage: `url(${lightTexture})`,
     backgroundSize: "cover",
@@ -64,18 +60,27 @@ export default function AllImagesGallery() {
     maxWidth: "100vw",
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  // Calculate the index of the first and last items on the current page
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentImages = images.slice(indexOfFirstItem, indexOfLastItem);
+  const [currentImages, setCurrentImages] = useState([]);
+  const [indexOfFirstItem, setIndexOfFirstItem] = useState(null);
+  const [indexOfLastItem, setIndexOfLastItem] = useState(null);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
+
+  useEffect(() => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    setIndexOfLastItem(indexOfLastItem);
+    setIndexOfFirstItem(indexOfLastItem - itemsPerPage);
+  }, [currentPage]);
+
+  useEffect(() => {
+    setCurrentImages(images);
+  }, [images]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div style={containerStyle}>
@@ -103,7 +108,6 @@ export default function AllImagesGallery() {
           Next
         </Button>
       </div>
-     
     </div>
   );
 }

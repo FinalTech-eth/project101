@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import { toast, ToastContainer } from "react-toastify";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
@@ -12,6 +13,8 @@ import { useForm } from "react-hook-form";
 import { CircularProgress } from "@mui/material";
 import NoticeTable from "./NoticeTable";
 import Loading from "../../../Components/Loading";
+import IconButton from "@mui/material/IconButton";
+import CancelIcon from "@mui/icons-material/Cancel";
 import "./styles.css";
 
 const Index = () => {
@@ -146,6 +149,7 @@ const Index = () => {
     setDescription("");
     setIsForEdit(null);
     fetchNotices();
+    reset();
   };
 
   return (
@@ -186,9 +190,22 @@ const Index = () => {
               </>
             ) : (
               <>
-                <DialogContentText sx={{ color: "#000" }}>
-                  Create a new Notice
-                </DialogContentText>
+                <DialogTitle sx={{ padding: "0", marginBottom: "1rem" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <DialogContentText sx={{ paddingLeft: "1rem" }}>
+                      Create a new Notice
+                    </DialogContentText>
+                    <IconButton onClick={() => handleCloseDialog()}>
+                      <CancelIcon />
+                    </IconButton>
+                  </Box>
+                </DialogTitle>
                 <FormControl sx={{ mt: 2 }}>
                   <TextField
                     placeholder="Enter Title"

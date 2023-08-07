@@ -174,7 +174,7 @@ const Index = () => {
         onClose={() => handleCloseDialog()}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle sx={{ padding: "5px" }}>
+        <DialogTitle sx={{ paddingLeft: "1.3rem" }}>
           <Box
             sx={{
               display: "flex",

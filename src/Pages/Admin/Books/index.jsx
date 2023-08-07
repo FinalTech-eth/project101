@@ -5,6 +5,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import DialogContentText from "@mui/material/DialogContentText";
 import { toast, ToastContainer } from "react-toastify";
 import { useTheme } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
@@ -14,6 +15,8 @@ import { CircularProgress } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import "./styles.css";
+import IconButton from "@mui/material/IconButton";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 const Index = () => {
   const [bookURL, setBookURL] = useState(null);
@@ -204,6 +207,22 @@ const Index = () => {
         aria-labelledby="responsive-dialog-title"
         fullWidth={true}
       >
+        <DialogTitle sx={{ paddingLeft: "1.5rem" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <DialogContentText sx={{ paddingLeft: "1rem" }}>
+              Add New Book
+            </DialogContentText>
+            <IconButton onClick={() => handleCloseDialog()}>
+              <CancelIcon />
+            </IconButton>
+          </Box>
+        </DialogTitle>
         <form
           onSubmit={handleSubmit(handleFormSubmit)}
           encType="multipart/form-data"
@@ -212,11 +231,9 @@ const Index = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <DialogTitle>Add Book</DialogTitle>
             <FormControl sx={{ mt: 2 }}>
               <TextField
                 required

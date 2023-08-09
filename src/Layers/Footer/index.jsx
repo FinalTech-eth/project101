@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import topTornEdge from "../../Assets/Images/top-torn-edge.png";
 import { useNavigate } from "react-router-dom";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import TelegramIcon from '@mui/icons-material/Telegram';
 import Link from "@mui/material/Link";
 
 const pages = [
@@ -128,8 +129,11 @@ const Footer = () => {
               marginTop: "10px",
             }}
           >
-            <a href="https://youtube.com/@ACIFOttawa" target="_blank">
+            <a href="https://youtube.com/@ACIFOttawa" target="blank">
               <YouTubeIcon sx={{ color: "red", fontSize: "1.5rem" }} />
+            </a>
+            <a href="https://t.me/ACIFOttawa" target="blank">
+              <TelegramIcon sx={{ color: "light-blue", fontSize: "1.5rem", marginLeft: '1rem' }} />
             </a>
           </Box>
           <Typography

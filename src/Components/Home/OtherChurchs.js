@@ -6,6 +6,7 @@ import img2 from "../../Assets/Images/photo_5877545827432512347_x.jpg";
 import img3 from "../../Assets/Images/photo_5877545827432512346_x.jpg";
 import img4 from "../../Assets/Images/photo_5877545827432512348_x.jpg";
 import img5 from "../../Assets/Images/photo_5877545827432512345_x.jpg";
+import img6 from "../../Assets/Images/kenya.jpg";
 import bgimage from "../../Assets/Images/photo_5823502271126815190_y.jpg";
 const churchData = [
   {
@@ -42,6 +43,13 @@ const churchData = [
     description: "",
     imageUrl: img5,
     websiteUrl: "https://acieth.org/about/establishment/",
+  },
+  {
+    id: 6,
+    title: "Apostolic church International Fellowship Kenya",
+    description: "",
+    imageUrl: img6,
+    websiteUrl: "https://purelyheavenly.org/",
   },
 ];
 

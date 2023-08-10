@@ -16,6 +16,7 @@ const token = admin?.token;
 const uploadImage = async (image) => {
   const formData = new FormData();
   formData.append("image", image);
+  console.log(token)
   const response = await axios.post("/image-upload", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
@@ -169,7 +170,6 @@ const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
             accept="image/*"
             onChange={handleImageChange}
             style={{ display: "none" }}
-            required
           />
           <Button variant="contained" component="span">
             Upload Image

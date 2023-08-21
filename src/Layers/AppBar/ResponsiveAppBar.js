@@ -142,7 +142,7 @@ export const ResponsiveAppBar = () => {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
               display: { xs: "flex", md: "none" },
               flexGrow: 1,

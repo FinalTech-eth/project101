@@ -163,7 +163,7 @@ const Footer = () => {
         />
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="subtitle1" sx={{ color: "#fff" }}>
-            1196 Wellington Street, K1Y 2Z5
+            169 Lily Pond Street, Kanata ON K2M 0j5
           </Typography>
           <Typography
             variant="subtitle2"

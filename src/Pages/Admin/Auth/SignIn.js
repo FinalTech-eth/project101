@@ -1,12 +1,7 @@
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -15,12 +10,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "../../../API/axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
+import SaveIcon from "@mui/icons-material/Save";
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 export default function SignIn() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = React.useState("");
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -29,10 +27,10 @@ export default function SignIn() {
       password: data.get("password"),
     };
     const currentTime = new Date().getTime();
-
     // Calculate the timestamp for 24 hours later
     const expiryTime = currentTime + 24 * 60 * 60 * 1000;
     try {
+      setIsSubmitting(true);
       const response = await axios.post("/auth/signin", formData);
       console.log(response.data);
       localStorage.setItem("admin", JSON.stringify(response.data));
@@ -46,6 +44,7 @@ export default function SignIn() {
       setErrorMsg(error.response?.data.message);
       toast.error("Failed to login.");
     } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -101,14 +100,18 @@ export default function SignIn() {
                 id="password"
                 autoComplete="current-password"
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign In
-              </Button>
+               <LoadingButton
+        variant="contained"
+        type="submit"
+        loading={isSubmitting}
+        loadingPosition="start"
+        startIcon={<SaveIcon />}
+        fullWidth
+        sx={{ mt: 3, mb: 2 }}
+      >
+        Sign In
+      </LoadingButton>
+              
             </Box>
           </Box>
         </Container>

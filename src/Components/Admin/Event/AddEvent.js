@@ -10,10 +10,11 @@ import EventCategories from "../../../Enums/EventCategory";
 import IconButton from "@mui/material/IconButton";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-const admin = JSON.parse(localStorage.getItem("admin"));
-const token = admin?.token;
 
 const uploadImage = async (image) => {
+
+const admin = JSON.parse(localStorage.getItem("admin"));
+const token = admin?.token;
   const formData = new FormData();
   formData.append("image", image);
   console.log(token)
@@ -27,6 +28,9 @@ const uploadImage = async (image) => {
 };
 
 const AddEventForm = ({ onCloseModal, onFetchEvents }) => {
+
+const admin = JSON.parse(localStorage.getItem("admin"));
+const token = admin?.token;
   const {
     register,
     handleSubmit,

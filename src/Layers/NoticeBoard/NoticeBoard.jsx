@@ -1,5 +1,5 @@
 import "./styles.css";
-import img from "../../Assets/Images/photo_5823502271126815178_y.jpg";
+
 import React, { useState, useEffect } from "react";
 import axios from "../../API/axios";
 import parser from "html-react-parser";

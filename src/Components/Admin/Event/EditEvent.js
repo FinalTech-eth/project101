@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Box, Typography, MenuItem, Menu } from "@mui/material";
+import { TextField, Button, Box, Typography, MenuItem} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import axios from "../../../API/axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -11,10 +11,11 @@ import IconButton from "@mui/material/IconButton";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Select from '@mui/material/Select';
 
-const admin = JSON.parse(localStorage.getItem("admin"));
-const token = admin?.token;
+
 
 const uploadImage = async (image) => {
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  const token = admin?.token;
   const formData = new FormData();
   formData.append("image", image);
   const response = await axios.post("/image-upload", formData, {
@@ -27,7 +28,8 @@ const uploadImage = async (image) => {
 };
 
 const EditEventForm = ({ event, onCloseModal, onFetchEvents }) => {
-
+  const admin = JSON.parse(localStorage.getItem("admin"));
+  const token = admin?.token;
   const {
     register,
     handleSubmit,
